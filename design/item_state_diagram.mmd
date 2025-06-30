@@ -1,0 +1,13 @@
+---
+config:
+      theme: redux
+---
+stateDiagram-v2
+[*] --> Available
+Available --> LowStock :  Low Quantity of Item
+LowStock --> OutOfStock : Last Item Bought
+OutOfStock --> Available : Restock Item 
+OutOfStock --> Discontinued : Discontinue Item
+Discontinued --> [*]
+Available --> Hidden : Marked Seasonal Item
+Hidden --> Available : Item in Season

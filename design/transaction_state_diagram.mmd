@@ -1,0 +1,13 @@
+---
+config:
+      theme: redux
+---
+stateDiagram-v2
+[*] --> Ordered
+Ordered --> Authorized : Payment Validated
+Authorized --> Pending : Packing Items
+Pending --> Packed : Cart Prepared for Delivery
+Packed --> EnRoute : Items out for Delivery
+EnRoute --> Delivered : Order was delivered
+Pending --> Cancelled : Order Cancelled
+Cancelled --> [*]

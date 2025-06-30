@@ -1,0 +1,79 @@
+---
+config:
+      theme: redux
+---
+classDiagram
+    User "1" --* "1" UserController
+    User "1" --* "*" UserModel
+    UserController "1" --* "1" UserModel
+    Item "1" --* "1" ItemController
+    Item "1" --* "*" ItemModel
+    ItemController "1" --* "1" ItemModel
+    Item "*" --o "1" Transaction
+    Transaction "1" --* "1" TransactionController
+    Transaction "1" --* "*" TransactionModel
+    TransactionController "1" --* "1" TransactionModel
+    Transaction "*" --* "1" User
+    class User {
+        +int UID
+        +String firstName
+        +String lastName
+        +String email
+        +List~Transaction~ transactionHistory
+    }
+    class UserController {
+        -UserModel userModel
+        +User activeUser
+    }
+    class UserModel {
+        -Database DB
+        +addUser(String name, float price, String type)
+        +updateUser(int id, String name, float price, String type)
+        +removeUser(int id)
+        +getUserById(int id) User
+        +getUsersByName(String name) List~User~
+        +getUsers() List~User~
+    }
+    class Item {
+        +int PID
+        +int SKU
+        +long UPC
+        +String name
+        +float price
+        +String category
+        +float rating
+    }
+    class ItemController {
+        -ItemModel itemModel
+        +List~Item~ activeItems
+    }
+    class ItemModel {
+        -Database DB
+        +addItem(String name, float price, String type)
+        +updateItem(int id, String name, float price, String type)
+        +removeItem(int id)
+        +getItemById(int id) Item
+        +getItemsByCategory(String categoryName) List~Item~
+        +getItemsByName(String name) List~Item~
+        +getItems() List~Item~
+    }
+    class Transaction {
+        +int TID
+        +List~Item~ items
+        +float totalCost
+        +String status
+        +String startDate
+        +String endDate
+    }
+    class TransactionController {
+        -TransactionModel transactionModel
+        +Transaction queuedTransaction
+    }
+    class TransactionModel {
+        -Database DB
+        +addTransaction(Transaction transaction)
+        +updateTransaction(int id, Transaction transaction)
+        +getTransactionById(int id) Transaction
+        +getTransactionsByUID(int uid) List~Transaction~
+        +getTransactions() List~Transaction~
+    }

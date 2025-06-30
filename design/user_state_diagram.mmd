@@ -1,0 +1,22 @@
+---
+config:
+      theme: redux
+---
+stateDiagram-v2
+[*] --> UnregisteredUser
+[*] --> LoggedIn
+UnregisteredUser --> Registered : Register
+Registered --> ProfileComplete : Add Information
+ProfileComplete --> LoggedIn : Login
+LoggedIn --> ViewingAccountSettings : View Account Settings
+ViewingAccountSettings --> ProfileComplete : Change Account Settings
+ViewingAccountSettings --> UnregisteredUser : Delete Account
+LoggedIn --> [*] : Logout
+LoggedIn --> Browsing : Browse & Search Products
+Browsing --> ViewingDetails : View Product Details
+ViewingDetails --> Browsing : Add/Remove Cart Items
+LoggedIn --> ViewingCart : View Cart
+Browsing --> ViewingCart : View Cart
+ViewingCart --> Browsing : Return to Browsing
+LoggedIn --> ViewingOrderHistory : View Order History
+Browsing --> ViewingOrderHistory : View Order History
