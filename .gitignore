@@ -1,3 +1,4 @@
 /tests
 .env
 .DS_STORE
+/ignore
