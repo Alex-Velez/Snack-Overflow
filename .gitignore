@@ -1,4 +1,5 @@
-/tests
+tests/
+test/
 .env
 .DS_STORE
-/ignore
+ignore/
