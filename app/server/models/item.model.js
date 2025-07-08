@@ -11,7 +11,7 @@ export async function addItem({name, desc, upc, sku, price, rating, category, im
     return result;
   }
   catch(err){
-    console.log(err)
+    return {error: err.errno ?? err.message}
   }
 }
 
@@ -22,7 +22,7 @@ export async function getItems(){
     return items;
   }
   catch(err){
-    console.log(err)
+    return {error: err.errno ?? err.message}
   }
 }
 
@@ -34,7 +34,7 @@ export async function updateItem({sku, name, desc, upc, price, rating, category,
     return result;
   }
   catch(err){
-    console.log(err);
+    return {error: err.errno ?? err.message}
   }
 }
 
@@ -43,14 +43,19 @@ export async function getItemBySku(sku){
   try{
     const [result] = await db.execute(query, [sku]);
     if(result.length === 0){
-      console.log("Item does not exist");
+      throw new Error('BAD_ITEM_LOOKUP');
     }
     else{
       return result[0];
     }
   }
   catch(err){
-    console.log(err)
+    if(err.message === 'BAD_ITEM_LOOKUP'){
+      return {error: 'Item does not exist.'}
+    }
+    else{
+      return {error: err.errno ?? err.message}
+    }
   }
 }
 
@@ -59,14 +64,19 @@ export async function getItemByUpc(upc){
   try{
     const [result] = await db.execute(query, [upc]);
     if(result.length === 0){
-      console.log("Item does not exist");
+      throw new Error('BAD_ITEM_LOOKUP');
     }
     else{
       return result[0];
     }
   }
   catch(err){
-    console.log(err)
+    if(err.message === 'BAD_ITEM_LOOKUP'){
+      return {error: 'Item does not exist.'}
+    }
+    else{
+      return {error: err.errno ?? err.message}
+    }
   }
 }
 
@@ -74,15 +84,10 @@ export async function getItemsByCategory(category){
   let query = 'SELECT * FROM items WHERE category=?'
   try{
     const [result] = await db.execute(query, [category]);
-    if(result.length === 0){
-      console.log("Item does not exist");
-    }
-    else{
-      return result;
-    }
+    return result;
   }
   catch(err){
-    console.log(err)
+    return {error: err.errno ?? err.message}
   }
 }
 
@@ -91,15 +96,10 @@ export async function getItemsByName(name){
   let query = 'SELECT * FROM items WHERE item_name LIKE ?'
   try{
     const [result] = await db.execute(query, [pattern]);
-    if(result.length === 0){
-      console.log("Item does not exist");
-    }
-    else{
-      return result;
-    }
+    return result;
   }
   catch(err){
-    console.log(err)
+    return {error: err.errno ?? err.message}
   }
 }
 
@@ -110,6 +110,6 @@ export async function deleteItem(sku){
     return result;
   }
   catch(err){
-    console.error(err);
+    return {error: err.errno ?? err.message}
   }
 }

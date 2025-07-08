@@ -24,6 +24,8 @@ CREATE TABLE transactions(
   delivered_date DATETIME,
   expected_date DATETIME,
   FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 )
 
 CREATE TABLE transaction_items(
@@ -31,6 +33,10 @@ CREATE TABLE transaction_items(
   item_id char(5) NOT NULL,
   item_cnt INT NOT NULL,
   PRIMARY KEY (transaction_id, item_id),
-  FOREIGN KEY (transaction_id) REFERENCES transactions(id),
+  FOREIGN KEY (transaction_id) REFERENCES transactions(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   FOREIGN KEY (item_id) REFERENCES items(sku)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
 )
