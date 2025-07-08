@@ -1,2 +1,3 @@
 - Increase password security in user-side (Priority: Low)
-- Write initial item and transaction model classes (Priority: High)
+- Write initial transaction model class (Priority: High)
+- Determine API routing (Priority: High)
