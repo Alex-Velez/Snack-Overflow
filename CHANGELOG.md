@@ -9,8 +9,11 @@
   - Added sql dir to root with schema.sql file.
   - Initiallized npm in server-side.
   - Added client and server specific todo md files in root directory.
-  - Updated gitignore to also include *ignore/*
+  - Updated gitignore to also include *ignore/*.
 
 **Trey Pickens 7/7**
   - Rounded out and tested initial *user.model.js* class. 
-  - Fixed *.gitignore* to allow nested *ignore/* and *tests/*, as well as added *test/*
+  - Edited *user.model.js* so some classes take JSON as input.
+  - Created initial *item.model.js* class with what should be all functions.
+  - Fixed *.gitignore* to allow nested *ignore/* and *tests/*, as well as added *test/*.
+  - Added *node_modules/* to *.gitignore* and removed tracked instances.

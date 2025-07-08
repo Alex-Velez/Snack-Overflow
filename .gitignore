@@ -3,3 +3,4 @@ test/
 .env
 .DS_STORE
 ignore/
+node_modules/

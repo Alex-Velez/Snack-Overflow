@@ -5,3 +5,4 @@ ignored by git via **.gitignore**
 [[{...}, {...}, {...}], [(some metadata)]]
 To access your query, use results[0] for an **array** of
 your query results.
+- **Model class functions** use JSON objects as input for the sake of loose ordering in parameters

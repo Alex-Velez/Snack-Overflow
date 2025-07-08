@@ -13,6 +13,7 @@ CREATE TABLE items(
   item_desc TEXT NOT NULL,
   price DECIMAL(10, 2) NOT NULL,
   rating DECIMAL(2, 1),
+  category VARCHAR(50) NOT NULL,
   img_path VARCHAR(255)
 )
 
