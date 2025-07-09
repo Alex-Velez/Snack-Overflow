@@ -17,6 +17,32 @@ CREATE TABLE items(
   img_path VARCHAR(255)
 )
 
+CREATE TABLE item_ratings(
+  user_id VARCHAR(36) NOT NULL,
+  item_id VARCHAR(36) NOT NULL,
+  rating DECIMAL(2, 1) NOT NULL,
+  PRIMARY KEY (user_id, item_id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (item_id) REFERENCES items(sku)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+
+CREATE TABLE cart_items(
+  user_id VARCHAR(36) NOT NULL,
+  item_id VARCHAR(36) NOT NULL,
+  item_cnt VARCHAR(36) NOT NULL,
+  PRIMARY KEY (user_id, item_id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (item_id) REFERENCES items(sku)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
+
 CREATE TABLE transactions(
   id VARCHAR(36) PRIMARY KEY,
   user_id VARCHAR(36) NOT NULL,

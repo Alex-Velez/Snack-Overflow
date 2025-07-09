@@ -3,7 +3,7 @@ import { DB_UPLOADS_PATH } from '../db.js';
 
 
 
-export async function addItem({name, desc, upc, sku, price, rating, category, imgSrc}){
+export async function addItem({name, desc, upc, sku, price, category, imgSrc}){
   let columns = '(sku, upc, item_name, item_desc, price, rating, category, img_path)'
   let query = `INSERT INTO items ${columns} VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
   try{

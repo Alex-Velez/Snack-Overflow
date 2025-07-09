@@ -37,7 +37,7 @@ export async function addTransactionItem(tid, itemId, itemCnt){
       return {error: 'Transaction does not exist.'}
     }
     else if(err.errno === 1062){
-      updateTransactionItem({itemCnt: itemCnt, sku: itemId, transactionId: tid});
+      return await updateTransactionItem({itemCnt: itemCnt, sku: itemId, transactionId: tid});
     }
     else if(err.message === 'NEGATIVE_QUANTITY'){
       return {error: 'Item not added due to negative quantity'}
@@ -78,8 +78,7 @@ async function updateTransactionItem({transactionId, sku, itemCnt, transaction_i
   let query = 'UPDATE transaction_items SET item_cnt=item_cnt + ? WHERE transaction_id=? AND item_id=?';
   try{
     const preUpdateItem = await getTransactionItem(transactionId, sku);
-    preUpdateItem && parseInt(preUpdateItem.item_cnt) - itemCnt
-    if(preUpdateItem && parseInt(preUpdateItem.item_cnt) - itemCnt <= 0){
+    if(preUpdateItem && parseInt(preUpdateItem.item_cnt) + itemCnt <= 0){
       await removeTransactionItem(transactionId, sku);
     }
     await db.execute(query, [itemCnt ?? item_cnt, transactionId ?? transaction_id, sku ?? item_id]);
