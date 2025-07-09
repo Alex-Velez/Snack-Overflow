@@ -4,10 +4,10 @@ import { DB_UPLOADS_PATH } from '../db.js';
 
 
 export async function addItem({name, desc, upc, sku, price, category, imgSrc}){
-  let columns = '(sku, upc, item_name, item_desc, price, rating, category, img_path)'
-  let query = `INSERT INTO items ${columns} VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+  let columns = '(sku, upc, item_name, item_desc, price, category, img_path)'
+  let query = `INSERT INTO items ${columns} VALUES (?, ?, ?, ?, ?, ?, ?)`;
   try{
-    const [result] = await db.execute(query, [sku, upc, name, desc, price, rating, category, imgSrc]);
+    const [result] = await db.execute(query, [sku, upc, name, desc, price, category, imgSrc]);
     return result;
   }
   catch(err){
