@@ -65,14 +65,17 @@ export async function getTransactionItem(transactionId, sku){
 }
 
 export async function removeTransactionItem(transactionId, sku){
-  let query = 'DELETE FROM transaction_items WHERE transaction_id=? AND item_id=?';
-  try{
-    await db.execute(query, [transactionId, sku]);
+  const query = 'DELETE FROM transaction_items WHERE transaction_id=? AND item_id=?';
+  try {
+  const [result] = await db.execute(query, [transactionId, sku]);
+  if (result.affectedRows === 0) {
+     return { error: 'Item or transaction not found.' };
+    }
+    return { success: true };
+  } catch (err) {
+    return { error: err.errno ?? err.message };
   }
-  catch(err){
-    return {error: err.errno ?? err.message}
-  }
-}
+ }
 
 async function updateTransactionItem({transactionId, sku, itemCnt, transaction_id, item_cnt, item_id}){
   let query = 'UPDATE transaction_items SET item_cnt=item_cnt + ? WHERE transaction_id=? AND item_id=?';

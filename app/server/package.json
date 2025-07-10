@@ -10,9 +10,11 @@
   "author": "Snack Overflow",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^17.0.1",
+    "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "mysql2": "^3.14.1",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }
