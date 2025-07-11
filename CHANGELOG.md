@@ -22,3 +22,7 @@
   - Created and tested initial ***transaction.model.js*** class.
   - Updated sql schema.
   - Adjusted ***user.model.js*** and ***item.model.js*** to return error JSON objects rather than print.
+  - Created and tested initial ***cart.model.js*** ***rating.model.js*** classes to keep track of and update user carts and ratings.
+
+**Trey Pickens 7/11**
+  - Minor bug fixes and improvements to ***transaction.model.js***

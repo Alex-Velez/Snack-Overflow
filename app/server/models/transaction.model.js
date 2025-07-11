@@ -37,7 +37,7 @@ export async function addTransactionItem(tid, itemId, itemCnt){
       return {error: 'Transaction does not exist.'}
     }
     else if(err.errno === 1062){
-      updateTransactionItem({itemCnt: itemCnt, sku: itemId, transactionId: tid});
+      return await updateTransactionItem({itemCnt: itemCnt, sku: itemId, transactionId: tid});
     }
     else if(err.message === 'NEGATIVE_QUANTITY'){
       return {error: 'Item not added due to negative quantity'}
@@ -65,24 +65,27 @@ export async function getTransactionItem(transactionId, sku){
 }
 
 export async function removeTransactionItem(transactionId, sku){
-  let query = 'DELETE FROM transaction_items WHERE transaction_id=? AND item_id=?';
-  try{
-    await db.execute(query, [transactionId, sku]);
+  const query = 'DELETE FROM transaction_items WHERE transaction_id=? AND item_id=?';
+  try {
+  const [result] = await db.execute(query, [transactionId, sku]);
+  if (result.affectedRows === 0) {
+     return { error: 'Item or transaction not found.' };
+    }
+    return { success: true };
+  } catch (err) {
+    return { error: err.errno ?? err.message };
   }
-  catch(err){
-    return {error: err.errno ?? err.message}
-  }
-}
+ }
 
 async function updateTransactionItem({transactionId, sku, itemCnt, transaction_id, item_cnt, item_id}){
   let query = 'UPDATE transaction_items SET item_cnt=item_cnt + ? WHERE transaction_id=? AND item_id=?';
   try{
     const preUpdateItem = await getTransactionItem(transactionId, sku);
-    preUpdateItem && parseInt(preUpdateItem.item_cnt) - itemCnt
-    if(preUpdateItem && parseInt(preUpdateItem.item_cnt) - itemCnt <= 0){
-      await removeTransactionItem(transactionId, sku);
+    if(preUpdateItem && parseInt(preUpdateItem.item_cnt) + itemCnt <= 0){
+      return await removeTransactionItem(transactionId, sku);
     }
-    await db.execute(query, [itemCnt ?? item_cnt, transactionId ?? transaction_id, sku ?? item_id]);
+    const [result] = await db.execute(query, [itemCnt ?? item_cnt, transactionId ?? transaction_id, sku ?? item_id]);
+    return [result]
   }
   catch(err){
     return {error: err.errno ?? err.message}
@@ -115,6 +118,7 @@ export async function getTransactionById(tid){
         let fullItem = (await getItemBySku(item.item_id));
         return {
           name: fullItem.item_name,
+          sku: item.item_id,
           itemPrice: parseFloat(fullItem.price),
           totalPrice: parseFloat(fullItem.price) * item.item_cnt,
           count: item.item_cnt
