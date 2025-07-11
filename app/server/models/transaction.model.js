@@ -82,9 +82,10 @@ async function updateTransactionItem({transactionId, sku, itemCnt, transaction_i
   try{
     const preUpdateItem = await getTransactionItem(transactionId, sku);
     if(preUpdateItem && parseInt(preUpdateItem.item_cnt) + itemCnt <= 0){
-      await removeTransactionItem(transactionId, sku);
+      return await removeTransactionItem(transactionId, sku);
     }
-    await db.execute(query, [itemCnt ?? item_cnt, transactionId ?? transaction_id, sku ?? item_id]);
+    const [result] = await db.execute(query, [itemCnt ?? item_cnt, transactionId ?? transaction_id, sku ?? item_id]);
+    return [result]
   }
   catch(err){
     return {error: err.errno ?? err.message}
@@ -117,6 +118,7 @@ export async function getTransactionById(tid){
         let fullItem = (await getItemBySku(item.item_id));
         return {
           name: fullItem.item_name,
+          sku: item.item_id,
           itemPrice: parseFloat(fullItem.price),
           totalPrice: parseFloat(fullItem.price) * item.item_cnt,
           count: item.item_cnt
