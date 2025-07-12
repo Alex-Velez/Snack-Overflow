@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 
 export default function HomePage() {
     return (
-        <div>
+        <div style={{ padding: 20}}>
             <h1>Snack-Overflow</h1>
-
             <nav>
                 <ul>
                     <li><Link to="/category">Browse Categories</Link></li>
