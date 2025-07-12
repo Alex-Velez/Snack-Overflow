@@ -4,3 +4,7 @@ test/
 .DS_STORE
 ignore/
 node_modules/
+
+# JetBrains IDE settings
+.idea/
+*.iml
