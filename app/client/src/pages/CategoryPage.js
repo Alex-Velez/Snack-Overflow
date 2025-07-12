@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function CatalogPage() {
+export default function CategoryPage() {
     return (
         <div>
             <h1>Catalog</h1>
