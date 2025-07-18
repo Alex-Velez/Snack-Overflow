@@ -8,6 +8,7 @@ import db, { DB_UPLOADS_PATH } from './db.js';
 import itemRouter from './routes/item.routes.js';
 import userRouter from './routes/user.routes.js';
 import transactionsRouter from './routes/transactions.js';
+import cartRouter from './routes/cart.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +24,7 @@ app.use('/uploads', express.static(DB_UPLOADS_PATH));
 app.use('/api/items', itemRouter);  
 app.use('/api/users', userRouter);  
 app.use('/api/transactions', transactionsRouter);   
+app.use('/api/cart', cartRouter);
 
 app.get('/', (req, res) => {
   res.send('🍿 Snack-Overflow API is up and running');
