@@ -1,0 +1,84 @@
+.checkout{
+  width: calc(100% - 836px);
+  min-width: 400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.total-box{
+  width: 350px;
+  height: 400px;
+  background-color: var(--main-color);
+  margin-top: -70px;
+  border-radius: var(--common-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 50px;
+  padding: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 20px 1px rgb(173, 173, 173);
+}
+
+.total-box-inner{
+  margin-top: 10px;
+  padding-top: 0px;
+  background-color: var(--secondary-color);
+  border-radius: var(--common-radius);
+  height: 200px;
+  width: 100%;
+  color: var(--main-color);
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.total-box-inner h1{
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+.total-box-inner h2{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  flex: 1;
+  gap: 5px
+}
+
+.total-box-inner h2 p{
+  font-size: 14px;
+  margin: 0px;
+  color: rgb(128, 128, 128);
+}
+
+.total-box-inner h2 input[type="checkbox"]{
+  accent-color: var(--main-color);
+}
+
+.total-box-inner h2 input:hover{
+  cursor: pointer;
+}
+
+.order-button{
+  background-color: var(--secondary-color);
+  color: var(--main-color);
+  width: 150px;
+  height: 50px;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Josefin Sans';
+}
+
+.order-button:active{
+  background-color: #d4d4d4;
+}

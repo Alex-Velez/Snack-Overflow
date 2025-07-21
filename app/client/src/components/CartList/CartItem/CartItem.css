@@ -1,0 +1,35 @@
+.cart-item{
+  background-color: var(--main-color);
+  display: flex;
+  flex-direction: row;
+  height: 100px;
+  width: 750px;
+  gap: 25px;
+  padding: 10px;
+  background-color: var(--secondary-color);
+  color: var(--main-color);
+  border-radius: var(--common-radius);
+}
+.cart-item-left{
+  display: flex;
+  gap: 10px;
+  padding-left: 10px;
+}
+
+.text-info{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 5px;
+  flex: .9
+}
+
+.text-info *{
+  margin: 0px;
+}
+
+.icon{
+  aspect-ratio: 1/1;
+  height: 100%;
+}

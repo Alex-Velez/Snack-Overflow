@@ -30,3 +30,8 @@
   - Created ***item.routes.js, user.routes.js, and transactions.js*** for route handling.
   - Updated **index.js** to function for API testing.
   - Updated ***schema.sql*** and created ***seed.sql***
+
+**V07.20**
+  - Initial cart class.
+  - Created initial header.
+  - Updated model classes to allow for transactions to be made.

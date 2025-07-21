@@ -1,0 +1,45 @@
+.item-count-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  gap: 10px;
+  font-size: 24px;
+}
+
+.item-count-div button{
+  border-radius: 50px;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 50px;
+  background-color: var(--main-color);
+  color: var(--secondary-color);
+  border: none
+}
+
+.item-count-div button:hover{
+  cursor: pointer;
+}
+
+.item-count-div button:active{
+  background-color: #2b534c;
+}
+
+.count-flex-items{
+  display: flex;
+  gap: 10px
+}
+
+.count{
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.minus-button *{
+  margin-top: 27px;
+}
