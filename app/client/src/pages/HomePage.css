@@ -1,0 +1,58 @@
+body {
+    overflow-x: hidden;
+}
+
+.home-shape-container {
+    position: relative;
+    width: 100%;
+}
+
+.home-shape-container img {
+    width: 100%;
+    display: block;
+    margin-top: 25px;
+}
+
+.home-shape-text {
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    transform: translate(-50%, -30%);
+    color: white;
+    font-size: 3rem;
+}
+
+.home-nav-tiles {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-x: visible;
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+.home-tile {
+    flex: 1 1 calc((100% - 5rem) / 6);
+    height: 25vh;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    position: relative;
+
+}
+
+.home-tile:hover {
+    background-color: #b8eac6;
+    transform: scale(1.05);
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+}
+
+.home-offset-tile {
+    position: relative;
+    right: -50px;
+}
