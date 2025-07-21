@@ -1,12 +1,11 @@
 import React from 'react';
 import Header from '../components/Header/Header';
+import Page from '../components/Page/Page';
 
-export default function ProfilePage() {
+export default function ProfilePage({activeUser}) {
     return (
-        <>
-            <Header/>
-            <h1>Profile</h1>
-            {/* TODO: replace with profile UI */}
-        </>
+        <Page activeUser={activeUser}>
+            
+        </Page>
     );
 }

@@ -4,7 +4,9 @@
   --main-color: #38675E;
   --secondary-color: #DCDCDC;
   --common-radius: 10px;
-  --main-hover: #2C524B
+  --main-hover: #2C524B;
+  --error: #8e0b0b;
+  --error-accent: #ee7676;
 }
 
 html{

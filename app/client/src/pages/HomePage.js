@@ -1,11 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../components/Header/Header";
+import Page from "../components/Page/Page";
 
-export default function HomePage() {
+export default function HomePage({activeUser}) {
     return (
-        <>
-            <Header/>
+        <Page activeUser={activeUser}>
             <nav>
                 <ul>
                     <li><Link to="/category">Browse Categories</Link></li>
@@ -13,6 +12,6 @@ export default function HomePage() {
                     <li><Link to="/login">Log In / Sign Up</Link></li>
                 </ul>
             </nav>
-        </>
+        </Page>
     );
 }
