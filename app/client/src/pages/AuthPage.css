@@ -2,51 +2,39 @@
     max-width: 400px;
     margin: 100px auto;
     padding: 2rem;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    border: 1px solid black;
+    border-radius: 15px;
     text-align: center;
-    background-color: #f9f9f9;
-}
-
-.auth-container input {
-    width: 100%;
-    padding: 0.5rem;
-    margin: 0.5rem 0;
-}
-
-.auth-container button {
-    padding: 0.5rem 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.auth-wrapper {
-    display: flex;
-    height: 100vh;
-}
-
-.auth-image {
-    flex: 1;
-    background-image: url('../../public/green-shopping-bag.png');
-    background-size: cover;
-    background-position: center;
-}
-
-.auth-container {
+    background-color: white;
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.auth-container input {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 5px;
+}
+
+.auth-container button {
+    padding: 0.5rem 1rem;
+    background-color: #AED886;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .auth-box {
     width: 100%;
     max-width: 400px;
     padding: 2rem;
-    border-radius: 10px;
+    border-radius: 15px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    color: black;
 }

@@ -5,7 +5,7 @@ import Header from "../components/Header/Header";
 export default function HomePage() {
     return (
         <>
-            <Header/>
+            <Header />
             <nav>
                 <ul>
                     <li><Link to="/category">Browse Categories</Link></li>
