@@ -20,9 +20,9 @@ export default function AuthPage() {
         <>
             <Header />
             <div className="auth-container">
-                <img src="/green-shopping-bag.png" height="100vh" alt="" />
+                {/* <img src="/green-shopping-bag.png" height="100vh" flex="1" backgroundSize="cover" backgroundPosition="center" alt="" /> */}
                 <div className="auth-box">
-                    <h1>Login</h1>
+                    <h1 className='auth-login-title'>Welcome Back!</h1>
                     <form onSubmit={handleSubmit}>
                         <input
                             type="text"
