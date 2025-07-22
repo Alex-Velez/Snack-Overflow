@@ -37,5 +37,9 @@
   - Updated model classes to allow for transactions to be made.
 
 **V07.21**
-  - Added auth screen with user and signup modals
-  - Added an empty cart screen
+  - Added auth screen with user and signup modals.
+  - Added an empty cart screen.
+
+**V07.22**
+  - Added some try/catch and more error messages handling unknown errors.
+  - Added "Already have an account" and "Don't have an account" to sign up and log in screens respectively .

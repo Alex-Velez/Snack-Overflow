@@ -4,10 +4,15 @@ import CartList from '../components/CartList/CartList';
 import Checkout from '../components/Checkout/Checkout';
 import Page from '../components/Page/Page'
 import EmptyCart from '../components/EmptyCart';
+import { useNavigate } from 'react-router-dom';
 
 const nearestHundredth = (val) => parseFloat(Math.round(val * 100)) / 100
 
 export default function CartPage({activeUser}) {
+    const navigate = useNavigate();
+    if(!activeUser){
+        navigate("/login");
+    }
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState();
 
@@ -49,10 +54,7 @@ export default function CartPage({activeUser}) {
         async function fetchCart(){
             let totalCost = 0.0;
             const res = await fetch(`/api/cart/${activeUser}`);
-            console.log("res: " + res)
             const data = await res.json();
-            console.log("data: " + data)
-            console.log(data)
             data.forEach(item => {
                 let itemCost = parseFloat(item.price) * parseInt(item.item_cnt);
                 totalCost += itemCost;

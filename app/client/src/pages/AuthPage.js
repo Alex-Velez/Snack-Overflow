@@ -17,21 +17,27 @@ export default function AuthPage({setActiveUser, activeUser}) {
 
     
     async function handleLogin(data){
-        let res = await fetch("/api/users/login",
-            {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)}
-        )
-        let result = await res.json();
-        if(result.error){
-            setError(true)
+        try{
+            let res = await fetch("/api/users/login",
+                {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)}
+            )
+            let result = await res.json();
+            if(result.error){
+                setError(result.error)
+            }
+            else{
+                setActiveUser(result.id)
+                navigate("/")
+            }
         }
-        else{
-            setActiveUser(result.id)
-            navigate("/")
+        catch(err){
+            setError("UNKNOWN_ERR");
+            navigate("/login");
         }
     }
 
@@ -40,26 +46,32 @@ export default function AuthPage({setActiveUser, activeUser}) {
             setError("NOMATCH");
             return;
         }
-        let res = await fetch("/api/users/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        });
-        let result = await res.json();
-        if(result.error){
-            setError(result.error);
+        try{
+            let res = await fetch("/api/users/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            let result = await res.json();
+            if(result.error){
+                setError(result.error);
+            }
+            else{
+                setModal("login")
+                navigate("/login")
+            }
         }
-        else{
-            setModal("login")
-            navigate("/login")
+        catch(err){
+            setError("UNKNOWN_ERR");
+            navigate("/login");
         }
     }
     
     return (
         <Page activeUser={activeUser}>
-            <AuthModal type={modal} error={error} handleLogin={handleLogin} handleSignUp={handleSignup}/>
+            <AuthModal type={modal} error={error} handleLogin={handleLogin} handleSignUp={handleSignup} changeModal={setModal}/>
             <AuthButtons setModal={setModal}/>
         </Page>
     );
