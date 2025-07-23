@@ -6,6 +6,7 @@ import OrderHistoryPage from "./pages/OrderHistoryPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
 import AuthPage from "./pages/AuthPage";
 import ProfilePage from "./pages/ProfilePage";
+import GroceryPage from './pages/GroceryPage';
 import { useState } from 'react';
 
 //Pass a test user onto cart to test it if awaiting log-in function
@@ -26,6 +27,8 @@ export default function App() {
           <Route path="/orders/:id" element={<OrderDetailPage activeUser={user}/>} />
           <Route path="/login" element={<AuthPage activeUser={user} setActiveUser={setActiveUser}/>}/>
           <Route path="/profile" element={<ProfilePage activeUser={user}/>} />
+          <Route path="/category/:categoryName" element={<GroceryPage activeUser={user}/>} />
+
       </Routes>
   );
 }
