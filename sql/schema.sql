@@ -53,6 +53,7 @@ CREATE TABLE transactions(
   creation_date DATETIME NOT NULL,
   delivered_date DATETIME,
   expected_date DATETIME,
+  total DECIMAL(10, 2) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -70,3 +71,9 @@ CREATE TABLE transaction_items(
     ON DELETE CASCADE 
     ON UPDATE CASCADE
 );
+
+CREATE TABLE discounts(
+  code VARCHAR(10) PRIMARY KEY,
+  sku CHAR(5) NOT NULL,
+  discount INT NOT NULL
+)
