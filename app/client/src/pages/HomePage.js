@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./HomePage.css";
 import Page from "../components/Page/Page";
+import "./HomePage.css";
 
 export default function HomePage({ activeUser }) {
     return (

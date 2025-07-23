@@ -5,6 +5,8 @@
     --secondary-color: #DCDCDC;
     --tertiary-color: #6da56c;
     --tertiary-select-color: #AED886;
+    --quaternary-color: #d2ccac;
+    --quinary-color: #969696;
     --common-radius: 10px;
     --main-hover: #2C524B;
     --error: #8e0b0b;
@@ -18,7 +20,8 @@ html {
 }
 
 body {
-    background-color: var(--secondary-color);
+    /* background-color: var(--secondary-color); */
+    background: linear-gradient(135deg, var(--quinary-color), var(--quaternary-color));
     padding: 25px;
     box-sizing: border-box;
     height: 100%;
