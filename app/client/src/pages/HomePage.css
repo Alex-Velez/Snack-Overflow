@@ -1,11 +1,19 @@
+.home {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .home-header {
     width: 100%;
+    position: relative;
+    border-radius: var(--common-radius);
 }
 
 .home-banner {
     width: 100%;
-    height: auto;
     display: block;
+    object-fit: cover;
     border-radius: var(--common-radius);
     user-select: none;
     -webkit-user-drag: none;
@@ -18,24 +26,24 @@
     top: 25%;
     left: 5%;
     color: white;
-    font-size: 3rem;
+    font-size: 3vw;
     text-align: left;
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
 }
 
 .home-title-2 {
-    top: 35%;
-    font-size: 1.75rem;
+    top: 40%;
+    font-size: 1.75vw;
     width: 50%;
     color: var(--secondary-color);
 }
 
 .home-top-nav {
     position: absolute;
-    top: 16%;
+    top: 5%;
     left: 50%;
     transform: translate(-50%, 0);
-    width: 40%;
+    width: 50%;
     max-width: 900px;
     display: flex;
     justify-content: center;
@@ -44,6 +52,7 @@
     padding: 0.5rem 1rem;
     border-radius: var(--common-radius);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-size: 1.25vw;
 }
 
 .home-top-nav ul {
@@ -51,7 +60,7 @@
     padding: 0;
     margin: 0;
     display: flex;
-    gap: 1.5rem;
+    gap: 3vw;
 }
 
 .home-top-nav a {
@@ -78,9 +87,11 @@
 }
 
 .home-tile {
+    position: relative;
+    bottom: 0%;
     flex: 1;
-    min-width: 160px;
-    min-height: 160px;
+    min-width: 5vw;
+    min-height: 20vh;
     background: white;
     border-radius: var(--common-radius);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -92,7 +103,7 @@
     font-weight: bold;
     font-size: 1.1rem;
     color: var(--main-color);
-    transition: transform 0.25s ease-out;
+    transition: 0.25s ease-out;
     text-align: center;
     text-decoration: none;
     user-select: none;
@@ -103,6 +114,7 @@
 
 .home-tile:hover {
     background-color: var(--tertiary-select-color);
+    bottom: 10%;
     transform: scale(1.05);
     cursor: pointer;
 }

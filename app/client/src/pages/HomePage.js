@@ -6,12 +6,12 @@ import "./HomePage.css";
 export default function HomePage({ activeUser }) {
     return (
         <Page activeUser={activeUser}>
-            <div display="flex" flexDirection="column">
+            <div className="home">
 
                 <div className="home-header">
                     <img src="/HomeRectangle.svg" alt="Banner" className="home-banner" />
                     <h2 className="home-title">We bring the store to your door!</h2>
-                    <h2 className="home-title home-title-2">Get organic produce and sustainably sourced groceries delivered at up to 5% off.</h2>
+                    <h2 className="home-title home-title-2">Get organic produce and sustainably sourced groceries delivered at up to 10% off.</h2>
 
                     <nav className="home-top-nav">
                         <ul>
