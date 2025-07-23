@@ -17,12 +17,12 @@ export default function HomePage({ activeUser }) {
                         <ul>
                             <li><Link to="/category">Browse Categories</Link></li>
                             <li><Link to="/orders">Order History</Link></li>
-                            <li><Link to="/login">Log In / Sign Up</Link></li>
                         </ul>
                     </nav>
                 </div>
 
                 <div className="home-nav-tiles">
+                    {/* // todo: Send to Categories page with specific filter */}
                     <Link to="/vegetables" className="home-tile">Vegetables</Link>
                     <Link to="/snacks" className="home-tile">Snacks & Breads</Link>
                     <Link to="/fruits" className="home-tile">Fruits</Link>
