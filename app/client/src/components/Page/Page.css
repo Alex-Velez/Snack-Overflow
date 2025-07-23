@@ -3,6 +3,8 @@
 :root {
     --main-color: #38675E;
     --secondary-color: #DCDCDC;
+    --tertiary-color: #6da56c;
+    --tertiary-select-color: #AED886;
     --common-radius: 10px;
     --main-hover: #2C524B;
     --error: #8e0b0b;

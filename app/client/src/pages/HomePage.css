@@ -30,7 +30,7 @@
     color: var(--secondary-color);
 }
 
-.home-nav {
+.home-top-nav {
     position: absolute;
     top: 16%;
     left: 50%;
@@ -40,14 +40,13 @@
     display: flex;
     justify-content: center;
     gap: 2rem;
-    background: rgba(255, 255, 255, 0.4);
-    /* semi-transparent background */
+    background: rgba(255, 255, 255, 0.5);
     padding: 0.5rem 1rem;
     border-radius: var(--common-radius);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.home-nav ul {
+.home-top-nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -55,15 +54,66 @@
     gap: 1.5rem;
 }
 
-.home-nav a {
+.home-top-nav a {
     color: var(--main-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.25s;
+}
+
+
+.home-top-nav a:hover {
+    color: var(--secondary-color);
     text-decoration: none;
     font-weight: bold;
 }
 
+.home-nav-tiles {
+    display: flex;
+    width: 100%;
+    padding: 1rem 0;
+    gap: 1rem;
+    overflow-x: visible;
+    box-sizing: border-box;
+}
 
-.home-nav a:hover {
-    color: var(--secondary-color);
-    text-decoration: none;
+.home-tile {
+    flex: 1;
+    min-width: 160px;
+    min-height: 160px;
+    background: white;
+    border-radius: var(--common-radius);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--main-color);
+    transition: transform 0.25s ease-out;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.home-tile:hover {
+    background-color: var(--tertiary-select-color);
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.home-tile a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.home-offset-tile {
+    position: relative;
+    right: -0.5%;
+    background: var(--tertiary-color);
 }
