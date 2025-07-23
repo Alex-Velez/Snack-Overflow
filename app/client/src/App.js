@@ -13,6 +13,7 @@ import { useState } from 'react';
 //let testUser = "b7dfd370-5b6a-11f0-bbe7-60dd8ec85f4f"
 
 export default function App() {
+
   const [user, setUser] = useState();
   function setActiveUser(uid){
     setUser(uid);

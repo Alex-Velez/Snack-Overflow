@@ -10,8 +10,8 @@ import {
 export class TransactionController {
   
   static async start(req, res) {
-    const { userId } = req.body;
-    const result = await addTransaction(userId);
+    const { userId, total } = req.body;
+    const result = await addTransaction(userId, total);
 
     if (result.error) {
       return res.status(400).json({ error: result.error });

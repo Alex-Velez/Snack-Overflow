@@ -5,7 +5,7 @@ const errors = {
   "EMAIL_IN_USE" : "This email is already in use"
 }
 
-export default function SignupForm({handleSignup, error}){
+export default function SignupForm({handleSignup, error, changeModal}){
   const [data, setData] = useState({
     first: "",
     last: "",
@@ -14,7 +14,7 @@ export default function SignupForm({handleSignup, error}){
     confirmPassword: ""
   })
 
-  const errorMsg = errors[error];
+  const errorMsg = errors[error] ?? "An unknown error has occurred";
 
   function handleChange(element){
     setData(prev => ({...prev, [element.target.name]: element.target.value}))
@@ -44,7 +44,11 @@ export default function SignupForm({handleSignup, error}){
     <label>
       <input type="password" name="confirmPassword" value={data.confirmPassword} onChange={handleChange} placeholder="Confirm Password" className={error === 'NOMATCH' ? 'error' : ''}></input>
     </label>
-    <p className="error-message">{errorMsg ?? " "}</p>
+    <p className="error-message">{error ? errorMsg : " "}</p>
     <button type="submit">Sign Up</button>
+    <div className="auth-form-footer">
+      <p>Already have an account?</p>
+      <button type="button" onClick={() => changeModal("login")}>Log in</button>
+    </div>
   </form>
 }

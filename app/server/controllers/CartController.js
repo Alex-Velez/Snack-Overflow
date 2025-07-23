@@ -12,6 +12,17 @@ import {
 }
 from "../models/transaction.model.js"
 
+import {
+  getDiscount
+}
+from "../models/discount.model.js"
+
+function printObj(obj){
+  for (let key in obj) {
+    console.log(`${key}: ${obj[key]}`);
+  }
+}
+
 export class CartController{
   static async update(req, res){
     const {userId, sku, count} = req.body;
@@ -65,12 +76,25 @@ export class CartController{
   }
 
   static async createOrder(req, res){
-    const {userId} = req.body;
-
-    let transaction = await addTransaction(userId);
+    const {userId, addTip, fastDelivery, discountCode} = req.body;
     let cart = await getCart(userId);
+    let discountObj = await getDiscount(discountCode);
+    let discount = discountObj ? parseInt(discountObj.discount) * .01 : null;
+    var total = fastDelivery ? 4.99 : 2.99
+    cart.forEach((item) => {
+      let thisPrice = parseFloat(item.price)
+      if(discount && (discountObj.sku === '00000' || item.sku === discountObj.sku)){
+        total += (thisPrice - (thisPrice * parseFloat(discount))) * parseInt(item.item_cnt);
+      }
+      else{
+        total += thisPrice * parseInt(item.item_cnt);
+      }
+    })
+    if(addTip){
+      total += 1;
+    }
+    let transaction = await addTransaction(userId, total);
     let tid = transaction.id;
-
     for(const item of cart){
       await addTransactionItem(tid, item.sku, item.item_cnt);
     }

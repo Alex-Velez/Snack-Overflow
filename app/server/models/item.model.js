@@ -51,7 +51,7 @@ export async function getItemBySku(sku){
   }
   catch(err){
     if(err.message === 'BAD_ITEM_LOOKUP'){
-      return {error: 'Item does not exist.'}
+      return {error: 'BAD_ITEM_LOOKUP'}
     }
     else{
       return {error: err.errno ?? err.message}

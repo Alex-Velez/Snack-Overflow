@@ -4,12 +4,12 @@ import { randomUUID } from 'crypto';
 
 //getTransactions()
 
-export async function addTransaction(uid){
+export async function addTransaction(uid, total){
   let tid = randomUUID();
-  let columns = '(id, user_id, creation_date)';
-  let query = `INSERT INTO transactions ${columns} VALUES (?, ?, NOW())`;
+  let columns = '(id, user_id, creation_date, total)';
+  let query = `INSERT INTO transactions ${columns} VALUES (?, ?, NOW(), ?)`;
   try{
-    const [result] = await db.execute(query, [tid, uid]);
+    const [result] = await db.execute(query, [tid, uid, total]);
     return {id: tid, data: result};
   }
   catch(err){
