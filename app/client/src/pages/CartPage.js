@@ -16,9 +16,12 @@ export default function CartPage({activeUser}) {
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState();
 
-    async function order(){
+    async function order(hasTip, fastDelivery, discountCode){
         let body = {
             "userId": activeUser,
+            "addTip": hasTip,
+            "fastDelivery": fastDelivery,
+            "discountCode": discountCode
         }
 
         let res = await fetch("/api/cart/order", {

@@ -42,4 +42,5 @@
 
 **V07.22**
   - Added some try/catch and more error messages handling unknown errors.
-  - Added "Already have an account" and "Don't have an account" to sign up and log in screens respectively .
+  - Added "Already have an account" and "Don't have an account" to sign up and log in screens respectively.
+  - Added discount functionality, order types, and total tracking to transaction creation
