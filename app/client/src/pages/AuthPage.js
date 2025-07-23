@@ -2,51 +2,50 @@ import React, { use } from 'react';
 import Page from '../components/Page/Page';
 import AuthButtons from '../components/AuthButtons/AuthButtons';
 import AuthModal from '../components/AuthModal/AuthModal';
-import {useState} from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
 
-export default function AuthPage({setActiveUser, activeUser}) {
+export default function AuthPage({ setActiveUser, activeUser }) {
     const [modal, setModal] = useState();
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    if(activeUser){
+    if (activeUser) {
         navigate("/profile")
     }
 
-
-    
-    async function handleLogin(data){
-        try{
+    async function handleLogin(data) {
+        try {
             let res = await fetch("/api/users/login",
                 {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)}
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                }
             )
             let result = await res.json();
-            if(result.error){
+            if (result.error) {
                 setError(result.error)
             }
-            else{
+            else {
                 setActiveUser(result.id)
                 navigate("/")
             }
         }
-        catch(err){
+        catch (err) {
             setError("UNKNOWN_ERR");
             navigate("/login");
         }
     }
 
-    async function handleSignup(data){
-        if(data.password !== data.confirmPassword){
+    async function handleSignup(data) {
+        if (data.password !== data.confirmPassword) {
             setError("NOMATCH");
             return;
         }
-        try{
+        try {
             let res = await fetch("/api/users/register", {
                 method: "POST",
                 headers: {
@@ -55,24 +54,24 @@ export default function AuthPage({setActiveUser, activeUser}) {
                 body: JSON.stringify(data)
             });
             let result = await res.json();
-            if(result.error){
+            if (result.error) {
                 setError(result.error);
             }
-            else{
+            else {
                 setModal("login")
                 navigate("/login")
             }
         }
-        catch(err){
+        catch (err) {
             setError("UNKNOWN_ERR");
             navigate("/login");
         }
     }
-    
+
     return (
         <Page activeUser={activeUser}>
-            <AuthModal type={modal} error={error} handleLogin={handleLogin} handleSignUp={handleSignup} changeModal={setModal}/>
-            <AuthButtons setModal={setModal}/>
+            <AuthModal type={modal} error={error} handleLogin={handleLogin} handleSignUp={handleSignup} changeModal={setModal} />
+            <AuthButtons setModal={setModal} />
         </Page>
     );
 }

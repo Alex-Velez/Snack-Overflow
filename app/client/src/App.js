@@ -12,20 +12,20 @@ import { useState } from 'react';
 //let testUser = "b7dfd370-5b6a-11f0-bbe7-60dd8ec85f4f"
 
 export default function App() {
-  const [user, setUser] = useState();
-  function setActiveUser(uid){
-    setUser(uid);
-  }
-  
-  return (
-      <Routes>
-          <Route path="/" element={<HomePage activeUser={user}/>} />
-          <Route path="/category" element={<CategoryPage activeUser={user}/>} />
-          <Route path="/cart" element={<CartPage activeUser={user}/>} />
-          <Route path="/orders" element={<OrderHistoryPage activeUser={user}/>} />
-          <Route path="/orders/:id" element={<OrderDetailPage activeUser={user}/>} />
-          <Route path="/login" element={<AuthPage activeUser={user} setActiveUser={setActiveUser}/>}/>
-          <Route path="/profile" element={<ProfilePage activeUser={user}/>} />
-      </Routes>
-  );
+    const [user, setUser] = useState();
+    function setActiveUser(uid) {
+        setUser(uid);
+    }
+
+    return (
+        <Routes>
+            <Route path="/" element={<HomePage activeUser={user} />} />
+            <Route path="/category" element={<CategoryPage activeUser={user} />} />
+            <Route path="/cart" element={<CartPage activeUser={user} />} />
+            <Route path="/orders" element={<OrderHistoryPage activeUser={user} />} />
+            <Route path="/orders/:id" element={<OrderDetailPage activeUser={user} />} />
+            <Route path="/login" element={<AuthPage activeUser={user} setActiveUser={setActiveUser} />} />
+            <Route path="/profile" element={<ProfilePage activeUser={user} />} />
+        </Routes>
+    );
 }
