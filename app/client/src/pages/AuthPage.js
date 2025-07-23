@@ -10,6 +10,7 @@ export default function AuthPage({ setActiveUser, activeUser }) {
     const [modal, setModal] = useState();
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
     if (activeUser) {
         navigate("/profile")
     }
@@ -25,7 +26,9 @@ export default function AuthPage({ setActiveUser, activeUser }) {
                     body: JSON.stringify(data)
                 }
             )
+
             let result = await res.json();
+
             if (result.error) {
                 setError(result.error)
             }
@@ -53,7 +56,9 @@ export default function AuthPage({ setActiveUser, activeUser }) {
                 },
                 body: JSON.stringify(data)
             });
+
             let result = await res.json();
+
             if (result.error) {
                 setError(result.error);
             }
