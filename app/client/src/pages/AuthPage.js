@@ -1,46 +1,77 @@
-import React, { useState } from 'react';
+import React, { use } from 'react';
+import Page from '../components/Page/Page';
+import AuthButtons from '../components/AuthButtons/AuthButtons';
+import AuthModal from '../components/AuthModal/AuthModal';
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header/Header';
-import "./Page.css";
-import "./AuthPage.css";
 
-export default function AuthPage() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+
+export default function AuthPage({ setActiveUser, activeUser }) {
+    const [modal, setModal] = useState();
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
+    if (activeUser) {
+        navigate("/profile")
+    }
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        // todo: send data to backend
-        console.log("Logging in with:", username, password);
-        navigate('/'); // todo: go to home after sending and verifying login data
+    async function handleLogin(data) {
+        try {
+            let res = await fetch("/api/users/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                }
+            )
+            let result = await res.json();
+            if (result.error) {
+                setError(result.error)
+            }
+            else {
+                setActiveUser(result.id)
+                navigate("/")
+            }
+        }
+        catch (err) {
+            setError("UNKNOWN_ERR");
+            navigate("/login");
+        }
+    }
+
+    async function handleSignup(data) {
+        if (data.password !== data.confirmPassword) {
+            setError("NOMATCH");
+            return;
+        }
+        try {
+            let res = await fetch("/api/users/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            let result = await res.json();
+            if (result.error) {
+                setError(result.error);
+            }
+            else {
+                setModal("login")
+                navigate("/login")
+            }
+        }
+        catch (err) {
+            setError("UNKNOWN_ERR");
+            navigate("/login");
+        }
     }
 
     return (
-        <>
-            <Header />
-            <div className="auth-container">
-                {/* <img src="/green-shopping-bag.png" height="100vh" flex="1" backgroundSize="cover" backgroundPosition="center" alt="" /> */}
-                <div className="auth-box">
-                    <h1 className='auth-login-title'>Welcome Back!</h1>
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        /><br />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        /><br />
-                        <button type="submit">Login</button>
-                    </form>
-                </div>
-
-            </div>
-        </>
+        <Page activeUser={activeUser}>
+            <AuthModal type={modal} error={error} handleLogin={handleLogin} handleSignUp={handleSignup} changeModal={setModal} />
+            <AuthButtons setModal={setModal} />
+        </Page>
     );
 }

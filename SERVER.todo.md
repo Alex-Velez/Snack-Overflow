@@ -1,2 +1,1 @@
 - Increase password security in user-side (Priority: Low)
-- Determine API routing -> Begin writing controller classes (Priority: High)

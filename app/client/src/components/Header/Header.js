@@ -6,7 +6,7 @@ import SearchBar from "../SearchBar/SearchBar";
 
 const BUTTON_SIZE = 50;
 
-export default function Header({loggedIn}){
+export default function Header({user}){
   return <header className="header">
     <div className="header-left">
       <img src="/logo.png" alt=""/>
@@ -19,7 +19,7 @@ export default function Header({loggedIn}){
       <IconButton id="cart-button" size={BUTTON_SIZE} link="/cart">
         <img src="/button_icons/Cart_Icon.png" alt="Cart"/>
       </IconButton>
-      <IconButton id="profile-button" size={BUTTON_SIZE}>
+      <IconButton id="profile-button" size={BUTTON_SIZE} link={user ? "/profile" : "/login"}>
         <img src="/button_icons/Profile_Icon.png" alt="Profile"/>
       </IconButton>
     </div>

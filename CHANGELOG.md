@@ -28,10 +28,18 @@
   - Minor bug fixes and improvements to ***transaction.model.js***.
   - Created and tested ***itemController.js, userController.js, and transactionController.js***.
   - Created ***item.routes.js, user.routes.js, and transactions.js*** for route handling.
-  - Updated **index.js** to function for API testing.
+  - Updated ***index.js*** to function for API testing.
   - Updated ***schema.sql*** and created ***seed.sql***
 
 **V07.20**
   - Initial cart class.
   - Created initial header.
   - Updated model classes to allow for transactions to be made.
+
+**V07.21**
+  - Added auth screen with user and signup modals.
+  - Added an empty cart screen.
+
+**V07.22**
+  - Added some try/catch and more error messages handling unknown errors.
+  - Added "Already have an account" and "Don't have an account" to sign up and log in screens respectively .

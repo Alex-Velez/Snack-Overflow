@@ -1,58 +1,69 @@
-body {
-    overflow-x: hidden;
-}
-
-.home-shape-container {
-    position: relative;
+.home-header {
     width: 100%;
 }
 
-.home-shape-container img {
+.home-banner {
     width: 100%;
+    height: auto;
     display: block;
-    margin-top: 25px;
+    border-radius: var(--common-radius);
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
-.home-shape-text {
+.home-title {
     position: absolute;
-    top: 30%;
-    left: 25%;
-    transform: translate(-50%, -30%);
+    top: 25%;
+    left: 5%;
     color: white;
     font-size: 3rem;
+    text-align: left;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
 }
 
-.home-nav-tiles {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem;
-    overflow-x: visible;
-    width: 100vw;
-    box-sizing: border-box;
+.home-title-2 {
+    top: 35%;
+    font-size: 1.75rem;
+    width: 50%;
+    color: var(--secondary-color);
 }
 
-.home-tile {
-    flex: 1 1 calc((100% - 5rem) / 6);
-    height: 25vh;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.home-nav {
+    position: absolute;
+    top: 16%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 40%;
+    max-width: 900px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    position: relative;
-
+    gap: 2rem;
+    background: rgba(255, 255, 255, 0.4);
+    /* semi-transparent background */
+    padding: 0.5rem 1rem;
+    border-radius: var(--common-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.home-tile:hover {
-    background-color: #b8eac6;
-    transform: scale(1.05);
-    transition: all 0.2s ease-out;
-    cursor: pointer;
+.home-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1.5rem;
 }
 
-.home-offset-tile {
-    position: relative;
-    right: -50px;
+.home-nav a {
+    color: var(--main-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+.home-nav a:hover {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: bold;
 }
