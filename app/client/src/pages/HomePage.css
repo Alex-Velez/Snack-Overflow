@@ -1,3 +1,7 @@
+body {
+    overflow-x: hidden;
+}
+
 .home {
     width: 100%;
     display: flex;
@@ -96,7 +100,7 @@
     position: relative;
     flex: 1;
     height: 100%;
-    background: white;
+    background: linear-gradient(0deg, var(--quaternary-color), white);
     border-radius: var(--common-radius);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     margin-top: 4vh;
@@ -129,7 +133,8 @@
 .home-offset-tile {
     position: relative;
     right: -0.5%;
-    background: var(--tertiary-color);
+    background: linear-gradient(0deg, var(--main-color), var(--tertiary-color));
+    color: white;
 }
 
 .home-boat {
