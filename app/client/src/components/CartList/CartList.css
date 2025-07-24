@@ -1,5 +1,5 @@
 .cart-container{
-  background-color: var(--main-color);
+  background: linear-gradient(0deg, var(--main-color), var(--main-hover));
   height: 100%;
   max-height: 100%;
   padding-left: 15px;
@@ -10,6 +10,7 @@
   min-width: fit-content;
   overflow: hidden;
   border-radius: var(--common-radius);
+  text-shadow: 0 0 8px rgba(82, 82, 82, 0.5);
 }
 
 .cart-items{
@@ -30,7 +31,7 @@
 }
 
 .cart-items::-webkit-scrollbar-track{
-  background: var(--main-color);
+  background: none;
 }
 
 .cart-items::-webkit-scrollbar-thumb{

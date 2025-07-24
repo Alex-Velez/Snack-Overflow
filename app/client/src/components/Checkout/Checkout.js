@@ -35,8 +35,8 @@ export default function Checkout({total = 0, handleOrder}){
           Subtotal: ${finalTotal}
         </h1>
         <h2>
-          <p>Delivery Fee: ${DELIVERY_FEE.toFixed(2)}</p>
           <p>Total: ${parseFloat(total)}</p>
+          <p>Delivery Fee: ${DELIVERY_FEE.toFixed(2)}</p>
           <div style={{marginTop: "6px", fontSize: "14px", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", color: ""}}>
             <Checkbox handleChange={setfastDelivery}/>
             One-hour delivery? (+$2.00)

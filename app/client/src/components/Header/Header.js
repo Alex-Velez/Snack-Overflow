@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 const BUTTON_SIZE = 50;
 
 export default function Header({ user }) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const isLoggedIn = Boolean(user);
     function handleSearch(search){
         navigate(`/shop/?search=${encodeURIComponent(search.toLowerCase())}`);
     }
@@ -29,7 +30,7 @@ export default function Header({ user }) {
                 <IconButton id="cart-button" size={BUTTON_SIZE} link="/cart">
                     <img src="/button_icons/Cart_Icon.png" alt="Cart" />
                 </IconButton>
-                <IconButton id="profile-button" size={BUTTON_SIZE} link={user ? "/profile" : "/login"}>
+                <IconButton id="profile-button" size={BUTTON_SIZE} link={isLoggedIn ? "/profile" : "/login"}>
                     <img src="/button_icons/Profile_Icon.png" alt="Profile" />
                 </IconButton>
             </div>

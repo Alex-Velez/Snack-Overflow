@@ -7,12 +7,13 @@
   align-items: center;
   justify-content: center;
   gap: 50px;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
 .total-box{
   width: 350px;
   height: 400px;
-  background-color: var(--main-color);
+  background: linear-gradient(0deg, var(--main-color), var(--main-hover));
   margin-top: -70px;
   border-radius: var(--common-radius);
   display: flex;
@@ -124,6 +125,10 @@
   font-family: 'Josefin Sans';
 }
 
+.discount-button:active{
+  background-color: #305953;
+}
+
 .discount-applied{
-  color: var(--main-color)
+  color: var(--main-color);
 }
