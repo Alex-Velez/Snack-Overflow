@@ -49,3 +49,6 @@
   - Added home screen.
   - Added grocery pages (Ability to search for is still being implemented).
   - Minor aesthetic changes to some parts of app.
+
+**V07.24**
+  - Added pattern checking for signup screen

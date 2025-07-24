@@ -1,9 +1,13 @@
 import db from '../db.js';
 import { DB_UPLOADS_PATH } from '../db.js';
 
-
+const skuRegex = /^\d{5}$/;
+const validateSku = (sku) => skuRegex.test(sku); 
 
 export async function addItem({name, desc, upc, sku, price, category, imgSrc}){
+  if(!validateSku(sku)){
+    return {error: "INVALID_SKU", description: "Sku must be 5 numbers"}
+  }
   let columns = '(sku, upc, item_name, item_desc, price, category, img_path)'
   let query = `INSERT INTO items ${columns} VALUES (?, ?, ?, ?, ?, ?, ?)`;
   try{

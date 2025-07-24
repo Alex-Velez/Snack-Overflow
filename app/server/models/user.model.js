@@ -1,7 +1,18 @@
 import db from '../db.js'
 import { randomUUID } from 'crypto';
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const validateEmail = (email) => emailRegex.test(email);
+const passwordRegex = /^[^\s]{8,15}$/;
+const validatePassword = (password) => passwordRegex.test(password);
+
 export async function addUser({first, last, email, password}){
+  if(!validateEmail(email)){
+    return {error: 'INVALID_EMAIL'}
+  }
+  if(!validatePassword(password)){
+    return {error: 'INVALID_PASSWORD'}
+  }
   let uid = randomUUID()
   let query = "INSERT INTO users (id, first_name, last_name, email_addr, password_hash) VALUES (?, ?, ?, ?, ?)";
   try{

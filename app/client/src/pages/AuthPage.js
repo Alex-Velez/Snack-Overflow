@@ -63,7 +63,8 @@ export default function AuthPage({ setActiveUser, activeUser }) {
                 setError(result.error);
             }
             else {
-                setModal("login")
+                setModal("login");
+                setError(null)
                 navigate("/login")
             }
         }
