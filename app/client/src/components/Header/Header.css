@@ -1,5 +1,5 @@
 .header {
-    background-color: var(--main-color);
+    background: linear-gradient(0deg, var(--main-color), var(--main-hover));
     width: 100%;
     height: 10%;
     border-radius: var(--common-radius);
