@@ -117,10 +117,26 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     transition: 0.25s ease-out;
+    z-index: 0;
+}
+
+.home-tile::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, var(--tertiary-select-color), var(--main-color));
+    opacity: 0;
+    transition: opacity 0.25s ease-out;
+    border-radius: var(--common-radius);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.home-tile:hover::before {
+    opacity: 1;
 }
 
 .home-tile:hover {
-    background-color: var(--tertiary-select-color);
     transform: scale(1.05) translateY(-10%);
     cursor: pointer;
 }
