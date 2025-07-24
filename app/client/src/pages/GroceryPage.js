@@ -8,14 +8,14 @@ export default function GroceryPage({ activeUser }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const search = searchParams.get('search')?.toLowerCase() || '';
-  const categories = searchParams.get('categories')?.split(',') || [];
-
   useEffect(() => {
     async function load() {
       setLoading(true);
       try {
-        const res = await fetch('/api/item');
+        const search = searchParams.get('search')?.toLowerCase() || '';
+        const categories = searchParams.get('categories')?.split(',') || [];
+        
+        const res = await fetch(`/api/items/search/${search}`);
         let data = await res.json();
         
         if (categories.length && categories[0] !== '') {
@@ -39,7 +39,7 @@ export default function GroceryPage({ activeUser }) {
     }
 
     load();
-  }, [search, categories]);
+  }, [searchParams]);
 
   return (
     <Page activeUser={activeUser}>
