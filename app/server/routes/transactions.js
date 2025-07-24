@@ -17,4 +17,7 @@ router.get('/:tid', TransactionController.getById);
 
 router.get('/user/:uid', TransactionController.listByUser);
 
+router.post('/deliver', TransactionController.markDelivered);
+router.post('/cancel', TransactionController.cancel)
+
 export default router;

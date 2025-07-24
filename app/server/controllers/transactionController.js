@@ -4,7 +4,8 @@ import {
   addTransactionItem,
   removeTransactionItem,
   getTransactionById,
-  getTransactionsByUid
+  getTransactionsByUid,
+  updateTransactionStatus
 } from '../models/transaction.model.js';
 
 export class TransactionController {
@@ -63,5 +64,25 @@ export class TransactionController {
       return res.status(400).json({ error: list.error });
     }
     return res.json(list);
+  }
+
+  static async markDelivered(req, res){
+    const { tid } = req.body;
+    const result = await updateTransactionStatus(tid, "DELIVERED");
+
+    if(result.error){
+      return res.status(400).json(result.error);
+    }
+    return res.json({message: "Transaction marked delivered"})
+  }
+
+  static async cancel(req, res){
+    const { tid } = req.body;
+    const result = await updateTransactionStatus(tid, "CANCELLED");
+
+    if(result.error){
+      return res.status(400).json(result.error);
+    }
+    return res.json({message: "Transaction cancelled"})
   }
 }

@@ -51,4 +51,5 @@
   - Minor aesthetic changes to some parts of app.
 
 **V07.24**
-  - Added pattern checking for signup screen
+  - Added pattern checking for signup screen.
+  - Updated full transaction backend to include a status.
