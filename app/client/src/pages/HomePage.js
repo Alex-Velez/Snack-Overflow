@@ -6,6 +6,7 @@ import "./HomePage.css";
 export default function HomePage({ activeUser }) {
     return (
         <Page activeUser={activeUser}>
+
             <div className="home">
 
                 <div className="home-header">
