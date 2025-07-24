@@ -8,7 +8,7 @@ export default function SearchBar({placeholder="Enter Text", handleSearch}){
     setSearch(element.target.value)
   }
 
-  return <form id="search-bar">
+  return <form id="search-bar" onSubmit={() => handleSearch(search)}>
     <input type="text" placeholder={placeholder} id="search-input" name="search" value={search} onChange={handleChange}>
     </input>
     <button id="search-button" type='button' onClick={() => handleSearch(search)}>
