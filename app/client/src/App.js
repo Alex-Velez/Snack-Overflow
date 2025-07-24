@@ -29,7 +29,6 @@ export default function App() {
           <Route path="/login" element={<AuthPage activeUser={user} setActiveUser={setActiveUser}/>}/>
           <Route path="/profile" element={<ProfilePage activeUser={user}/>} />
           <Route path="/category/:categoryName" element={<GroceryPage activeUser={user}/>} />
-
       </Routes>
   );
 }

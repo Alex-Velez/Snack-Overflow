@@ -3,10 +3,16 @@ import { Link } from "react-router-dom";
 import './Header.css'
 import IconButton from "../IconButton/IconButton";
 import SearchBar from "../SearchBar/SearchBar";
+import { useNavigate } from "react-router-dom";
 
 const BUTTON_SIZE = 50;
 
 export default function Header({ user }) {
+    const navigate = useNavigate()
+    function handleSearch(search){
+        navigate(`/shop/?search=${encodeURIComponent(search.toLowerCase())}`);
+    }
+    
     return (
         <header className="header">
 
@@ -16,7 +22,7 @@ export default function Header({ user }) {
             </div>
 
             <div className="header-middle">
-                <SearchBar placeholder="Search for fruit, veggies, dairy, and more!"></SearchBar>
+                <SearchBar placeholder="Search for fruit, veggies, dairy, and more!" handleSearch={handleSearch}></SearchBar>
             </div>
 
             <div className="header-right">
