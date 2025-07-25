@@ -8,6 +8,7 @@ router.post('/login', UserController.login);
 router.patch('/update', UserController.update)
 
 router.get('/:uid', UserController.getById); 
+
 router.get('/', UserController.list); 
 
 export default router;

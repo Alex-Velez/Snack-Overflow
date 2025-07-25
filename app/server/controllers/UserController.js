@@ -1,3 +1,4 @@
+import db from '../db.js';
 import {
     addUser,
     getUser,
@@ -8,40 +9,40 @@ import {
   
   export class UserController {
     static async register(req, res) {
-      const { first, last, email, password } = req.body;
-      const result = await addUser({ first, last, email, password });
-  
+      const {first, last, email, password} = req.body;
+      const result = await addUser({first, last, email, password});
+
       if (result.error) {
-        return res.status(400).json({ error: result.error });
+        return res.status(400).json({error: result.error});
       }
-      return res.status(201).json({ userId: result.id });
+      return res.status(201).json({userId: result.id});
     }
-  
+
     static async login(req, res) {
-      const { email, password } = req.body;
-      const user = await getUser({ email, password });
-  
+      const {email, password} = req.body;
+      const user = await getUser({email, password});
+
       if (user.error) {
-        return res.status(401).json({ error: user.error });
+        return res.status(401).json({error: user.error});
       }
       return res.json(user);
     }
-  
+
     static async getById(req, res) {
-      const { uid } = req.params;
+      const {uid} = req.params;
       const user = await getUserById(uid);
-  
+
       if (user.error) {
-        return res.status(404).json({ error: user.error });
+        return res.status(404).json({error: user.error});
       }
       return res.json(user);
     }
-  
+
     static async list(req, res) {
       const users = await getUsers();
-  
+
       if (users.error) {
-        return res.status(500).json({ error: users.error });
+        return res.status(500).json({error: users.error});
       }
       return res.json(users);
     }
@@ -64,3 +65,4 @@ import {
     }
   }
   
+
