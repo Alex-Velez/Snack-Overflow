@@ -2,7 +2,8 @@ import {
     addUser,
     getUser,
     getUserById,
-    getUsers
+    getUsers,
+    updateUser
   } from '../models/user.model.js';
   
   export class UserController {
@@ -43,6 +44,23 @@ import {
         return res.status(500).json({ error: users.error });
       }
       return res.json(users);
+    }
+
+    static async update(req, res){
+      const { uid, first, last, email, password, address } = req.body;
+      const result = await updateUser({
+        uid,
+        first,
+        last,
+        email,
+        password,
+        address
+      })
+
+      if (result.error) {
+        return res.status(500).json({ error: result.error });
+      }
+      return res.json({success: true});
     }
   }
   

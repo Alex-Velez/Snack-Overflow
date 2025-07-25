@@ -2,14 +2,16 @@ import "./Checkout.css"
 import { Link } from "react-router-dom"
 import Checkbox from "./Checkbox.js";
 import { use, useState } from "react";
+import CartModal from "../CartModal/CartModal.js";
 
 
 
-export default function Checkout({total = 0, handleOrder}){
+export default function Checkout({total = 0, handleOrder, user}){
   const [hasTip, setHasTip] = useState(false);
   const [fastDelivery, setfastDelivery] = useState(false);
   const [discountCode, setDiscountCode] = useState();
-  const [activeDiscount, setActiveDiscount] = useState(null)
+  const [activeDiscount, setActiveDiscount] = useState(null);
+  const [modalActive, setModalActive] = useState(false);
   const subtotal = Number(total || 0);
   const tip = hasTip ? 1 : 0;
   const DELIVERY_FEE = fastDelivery ? 4.99 : 2.99;
@@ -29,6 +31,7 @@ export default function Checkout({total = 0, handleOrder}){
   }
   
   return <section className="checkout">
+    {modalActive && <CartModal handlePurchase={() => {handleOrder(hasTip, fastDelivery, activeDiscount)}} user={user}/>}
     <div className="total-box">
       <div className="total-box-inner">
         <h1>
@@ -53,11 +56,11 @@ export default function Checkout({total = 0, handleOrder}){
           </div>
         </form>
       </div>
-      <Link to="/">
-        <button className="order-button" onClick={() => {handleOrder(hasTip, fastDelivery, activeDiscount)}}>
+      <div>
+        <button className="order-button" onClick={() => setModalActive(true)}>
           Place Order
         </button>
-      </Link>
+      </div>
     </div>
   </section>
 }

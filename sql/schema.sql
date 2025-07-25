@@ -7,7 +7,8 @@ CREATE TABLE users(
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   email_addr VARCHAR(45) UNIQUE NOT NULL,
-  password_hash VARCHAR(45) NOT NULL
+  password_hash VARCHAR(45) NOT NULL,
+  shipping_addr TEXT
 );
 
 CREATE TABLE items(

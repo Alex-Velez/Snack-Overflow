@@ -2,9 +2,11 @@ import db from '../db.js'
 import { randomUUID } from 'crypto';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const validateEmail = (email) => emailRegex.test(email);
 const passwordRegex = /^[^\s]{8,15}$/;
+const nameRegex = /^[a-zA-Z\s'-]+$/;
+const validateEmail = (email) => emailRegex.test(email);
 const validatePassword = (password) => passwordRegex.test(password);
+const validateName = (name) => nameRegex.test(name);
 
 export async function addUser({first, last, email, password}){
   if(!validateEmail(email)){
@@ -12,6 +14,12 @@ export async function addUser({first, last, email, password}){
   }
   if(!validatePassword(password)){
     return {error: 'INVALID_PASSWORD'}
+  }
+  if(!validateName(first)){
+    return {error: 'INVALID_FIRSTNAME'}
+  }
+  if(!validateName(last)){
+    return {error: 'INVALID_LASTNAME'}
   }
   let uid = randomUUID()
   let query = "INSERT INTO users (id, first_name, last_name, email_addr, password_hash) VALUES (?, ?, ?, ?, ?)";
@@ -54,8 +62,9 @@ export async function getUser({email, password}){
   }
 }
 
-export async function getUserById(uid){
-  let query = 'SELECT id, first_name, last_name, email_addr FROM users WHERE id=?';
+export async function getUserById(uid, PROTECTED=true){
+  let columns = PROTECTED ? "id, first_name, last_name, email_addr" : '*'
+  let query = `SELECT ${columns} FROM users WHERE id=?`;
   
   try{
     const [result] = await db.execute(query, [uid]);
@@ -87,4 +96,42 @@ export async function getUsers(PROTECTED=true){
   }
 }
 
-//getUsersByName
+export async function updateUser({uid, first, last, email, password, address}){
+  if(email && !validateEmail(email)){
+    return {error: 'INVALID_EMAIL'}
+  }
+  if(password && !validatePassword(password)){
+    return {error: 'INVALID_PASSWORD'}
+  }
+  if(first && !validateName(first)){
+    return {error: 'INVALID_FIRSTNAME'}
+  }
+  if(last && !validateName(last)){
+    return {error: 'INVALID_LASTNAME'}
+  }
+  
+  const prev = await getUserById(uid, false);
+  const newUser = {
+    first: first ?? prev.first_name,
+    last: last ?? prev.last_name,
+    email: email ?? prev.email_addr,
+    password: password ?? prev.password_hash,
+    address: address ?? prev.shipping_addr
+  }
+  let columns = ("first_name=?, last_name=?, email_addr=?, password_hash=?, shipping_addr=?");
+  let query = `UPDATE users SET ${columns} WHERE id=?`;
+  try{
+    await db.execute(query, [
+      newUser.first,
+      newUser.last,
+      newUser.email,
+      newUser.password,
+      (newUser.address ?? null),
+      uid
+    ])
+    return {success: true}
+  }
+  catch(err){
+    return {error: err.errno ?? err.message}
+  }
+}

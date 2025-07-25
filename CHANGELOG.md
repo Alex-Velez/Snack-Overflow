@@ -53,3 +53,7 @@
 **V07.24**
   - Added pattern checking for signup screen.
   - Updated full transaction backend to include a status.
+  - Began profile screen.
+  - Updated grocery screen.
+  - Updated full user backend and implemented frontend to include addresses.
+  - Added intermediate modal to cart screen to verify address.
