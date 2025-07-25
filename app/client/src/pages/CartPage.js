@@ -10,15 +10,22 @@ const nearestHundredth = (val) => parseFloat(Math.round(val * 100)) / 100
 
 export default function CartPage({activeUser}) {
     const navigate = useNavigate();
-    if(!activeUser){
-        navigate("/login");
-    }
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState();
 
-    async function order(){
+    useEffect(() => {
+        if (!activeUser) {
+            navigate("/login");
+            return;
+        }
+    }, [activeUser, navigate]);
+
+    async function order(hasTip, fastDelivery, discountCode){
         let body = {
             "userId": activeUser,
+            "addTip": hasTip,
+            "fastDelivery": fastDelivery,
+            "discountCode": discountCode
         }
 
         let res = await fetch("/api/cart/order", {
@@ -52,6 +59,7 @@ export default function CartPage({activeUser}) {
     useEffect(() => {
         console.log("Using effect")
         async function fetchCart(){
+            if (!activeUser) return;
             let totalCost = 0.0;
             const res = await fetch(`/api/cart/${activeUser}`);
             const data = await res.json();
@@ -63,7 +71,7 @@ export default function CartPage({activeUser}) {
             setTotal(nearestHundredth(totalCost));
         }
         fetchCart();
-    }, []);
+    }, [activeUser]);
     console.log(cart);
     const mainBody = () => {
         if(cart.length === 0){

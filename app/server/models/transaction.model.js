@@ -2,14 +2,14 @@ import db from "../db.js";
 import { getItemBySku } from "./item.model.js";
 import { randomUUID } from 'crypto';
 
-//getTransactions()
+const validStatus = (status) => ["CREATED", "DELIVERED", "CANCELLED"].includes(status);
 
-export async function addTransaction(uid){
+export async function addTransaction(uid, total){
   let tid = randomUUID();
-  let columns = '(id, user_id, creation_date)';
-  let query = `INSERT INTO transactions ${columns} VALUES (?, ?, NOW())`;
+  let columns = '(id, user_id, creation_date, total, order_status)';
+  let query = `INSERT INTO transactions ${columns} VALUES (?, ?, NOW(), ?, "CREATED")`;
   try{
-    const [result] = await db.execute(query, [tid, uid]);
+    const [result] = await db.execute(query, [tid, uid, total]);
     return {id: tid, data: result};
   }
   catch(err){
@@ -93,19 +93,21 @@ async function updateTransactionItem({transactionId, sku, itemCnt, transaction_i
 }
 
 export async function getTransactionById(tid){
-  let tSelection = 'id, user_id, creation_date, delivered_date, expected_date';
+  let tSelection = 'id, user_id, creation_date, delivered_date, expected_date, order_status';
   let tQuery = `SELECT ${tSelection} FROM transactions WHERE id=?`;
   let tItemSelection = 'item_id, item_cnt';
   let tItemQuery = `SELECT ${tItemSelection} FROM transaction_items WHERE transaction_id=?`;
   var transaction = {};
   try{
     let [result] = await db.execute(tQuery, [tid]);
+    console.log(result[0].order_status)
     transaction.info = {
       id: result[0].id, 
       uid: result[0].user_id, 
+      status: result[0].order_status,
       created: result[0].creation_date,
       expected: result[0].expected_date,
-      delivered: result[0].delivered_date
+      delivered: result[0].delivered_date,
     };
   }
   catch(err){
@@ -141,5 +143,26 @@ export async function getTransactionsByUid(uid){
   }
   catch(err){
     return {error: err.errno ?? err.message}
+  }
+}
+
+export async function updateTransactionStatus(tid, status){
+  let formattedStatus = status.toUpperCase();
+  let prevTransaction = await getTransactionById(tid);
+  let prevStatus = prevTransaction.info.status;
+  if(!validStatus(formattedStatus)){
+    return {error: "INVALID_STATUS"}
+  }
+  console.log(prevStatus)
+  if(prevStatus === "DELIVERED" || prevStatus === "CANCELLED"){
+    return {error: "INVALID_UPDATE"}
+  }
+  let query = 'UPDATE transactions SET order_status=? WHERE id=?';
+  try{
+    await db.execute(query, [formattedStatus, tid]);
+    return {success: true}
+  }
+  catch(error){
+    return {error: error.errno ?? error.message}
   }
 }

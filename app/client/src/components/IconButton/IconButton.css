@@ -1,20 +1,21 @@
-.icon-button{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  background: none;
-  border: none;
-  border-radius: 100%;
-  overflow: visible;
+.icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 100%;
+    overflow: visible;
+    transition: 0.25s ease-out;
 }
 
-.icon-button:hover{
-  box-shadow: inset 0px 0px 10px 10px #2a524a,
-  0px 0px 10px 2px #2a524a;
-  cursor: pointer;
+.icon-button:hover {
+    box-shadow: inset 0px 0px 10px 10px #2a524a,
+        0px 0px 10px 2px wheat;
+    cursor: pointer;
 }
 
-.icon-button img{
-  height: 100%;
+.icon-button img {
+    height: 100%;
 }

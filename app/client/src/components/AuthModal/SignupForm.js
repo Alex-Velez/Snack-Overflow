@@ -2,7 +2,9 @@ import { useState } from "react";
 
 const errors = {
   "NOMATCH" : "Passwords must match",
-  "EMAIL_IN_USE" : "This email is already in use"
+  "EMAIL_IN_USE" : "This email is already in use",
+  "INVALID_EMAIL" : "This email is invalid",
+  "INVALID_PASSWORD" : "Password must be between 8 and 15 characters and may not contain spaces"
 }
 
 export default function SignupForm({handleSignup, error, changeModal}){
@@ -36,7 +38,7 @@ export default function SignupForm({handleSignup, error, changeModal}){
       </label>
     </div>
     <label>
-      <input type="email" name="email" value={data.email} onChange={handleChange} placeholder="Email" className={error === 'EMAIL_IN_USE'? 'error' : ''}></input>
+      <input type="text" name="email" value={data.email} onChange={handleChange} placeholder="Email" className={error === 'EMAIL_IN_USE'? 'error' : ''}></input>
     </label>
     <label>
       <input type="password" name="password" value={data.password} onChange={handleChange} placeholder="Password" className={error === 'NOMATCH' ? 'error' : ''}></input>
