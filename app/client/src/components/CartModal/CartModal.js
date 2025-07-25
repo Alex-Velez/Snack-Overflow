@@ -1,13 +1,12 @@
 import ReactDOM from 'react-dom';
 import './CartModal.css'
 import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
 
-export default function CartModal({handlePurchase, user}){
-  const [address, setAddress] = useState();
-  const [modal, setModal] = useState(address ? "complete" : "address");
-  const [error, setError] = useState(null);
-  const addressRef = useRef();
+export default function CartModal({handlePurchase, initialAddress, user}){
+  const [address, setAddress] = useState(initialAddress);
+  const [modal, setModal] = useState(initialAddress ? "complete" : "address");
+  const [error, setError] = useState();
+  const textRef = useRef();
 
   function swapModal(){
     if(modal === "complete"){
@@ -18,23 +17,21 @@ export default function CartModal({handlePurchase, user}){
     }
   }
 
-  async function handleSave(e){
-    e.preventDefault();
-    setError(null);
+  async function handleSave(){
+    setError(null)
+    const value = textRef.current.value.trim();
     
-    const value = addressRef.current.value;
-    if(!value || value.trim() === ""){
-      setError("BAD_ADDRESS");
+    if(value === ""){
+      setError("BAD_ADDRESS")
       return;
     }
     
     try {
       let body = {
-          "address": value,
-          "uid": user
-      };
-
-      console.log('Sending request with body:', body);
+        address: value,
+        uid: user
+      }
+      
       let res = await fetch("/api/users/update", {
           method: "PATCH",
           headers: {
@@ -42,34 +39,31 @@ export default function CartModal({handlePurchase, user}){
           },
           body: JSON.stringify(body)
       });
-
-      const data = await res.json();
-      console.log('Response:', { status: res.status, data });
-
-      if (!res.ok) {
-        console.error('Server error:', data);
-        setError("SERVER_ERROR");
-        return;
-      }
       
-      setAddress(value);
-      swapModal();
+      if (res.ok) {
+        setAddress(value);
+        swapModal();
+      } else {
+        setError("Failed to save address");
+      }
     } catch (err) {
-      setError("SERVER_ERROR");
-      console.error(err);
+      setError("Error saving address");
     }
   }
 
   function AddressForm(){
-    return <form className='address-form' onSubmit={handleSave}>
+    return <form className='address-form'>
       <textarea 
-        ref={addressRef}
-        name="address"
-        placeholder="Enter delivery address"
+        ref={textRef}
+        defaultValue={address ?? ""}
+        placeholder="Enter your delivery address"
       />
-      {error === "BAD_ADDRESS" && <p className='error-text'>Address cannot be blank</p>}
-      {error === "SERVER_ERROR" && <p className='error-text'>Unable to save address. Please try again.</p>}
-      <button className='add-address-button' type='submit'>
+      <p className='error-text'>{error}</p>
+      <button 
+        className='add-address-button'
+        type='button'
+        onClick={handleSave}
+      >
         {address ? 'Save Address' : 'Add Address'}
       </button>
     </form>
@@ -80,9 +74,7 @@ export default function CartModal({handlePurchase, user}){
       <h1>Delivering to:</h1>
       <p>{address}</p>
       <button className='edit-address' onClick={swapModal}>Edit Address</button>
-      <Link to="/">
-        <button className='complete-button' onClick={handlePurchase}>Complete Purchase</button>
-      </Link>
+      <button className='complete-button' onClick={handlePurchase}>Complete Purchase</button>
     </div>
   }
   

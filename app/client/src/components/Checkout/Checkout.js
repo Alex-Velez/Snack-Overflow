@@ -1,21 +1,34 @@
 import "./Checkout.css"
-import { Link } from "react-router-dom"
 import Checkbox from "./Checkbox.js";
-import { use, useState } from "react";
+import { useState, useEffect } from "react";
 import CartModal from "../CartModal/CartModal.js";
+import { useNavigate } from "react-router-dom";
 
 
-
-export default function Checkout({total = 0, handleOrder, user}){
+export default function Checkout({total = 0, handleOrder, user, address}){
   const [hasTip, setHasTip] = useState(false);
   const [fastDelivery, setfastDelivery] = useState(false);
   const [discountCode, setDiscountCode] = useState();
   const [activeDiscount, setActiveDiscount] = useState(null);
   const [modalActive, setModalActive] = useState(false);
+  const [initialAddress, setAddress] = useState();
   const subtotal = Number(total || 0);
   const tip = hasTip ? 1 : 0;
   const DELIVERY_FEE = fastDelivery ? 4.99 : 2.99;
   const finalTotal = (subtotal + DELIVERY_FEE + tip).toFixed(2);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function getAddress(){
+      let result = await fetch(`/api/users/${user}`);
+      const data = await result.json()
+      setAddress(data.shipping_addr)
+    }
+    getAddress();
+  }, [user])
+
+
+
 
   function handleChange(element){
     setDiscountCode(element.target.value)
@@ -31,7 +44,10 @@ export default function Checkout({total = 0, handleOrder, user}){
   }
   
   return <section className="checkout">
-    {modalActive && <CartModal handlePurchase={() => {handleOrder(hasTip, fastDelivery, activeDiscount)}} user={user}/>}
+    {modalActive && <CartModal handlePurchase={() => {
+      handleOrder(hasTip, fastDelivery, activeDiscount);
+      navigate("/")
+      }} user={user} initialAddress={initialAddress}/>}
     <div className="total-box">
       <div className="total-box-inner">
         <h1>
@@ -56,11 +72,9 @@ export default function Checkout({total = 0, handleOrder, user}){
           </div>
         </form>
       </div>
-      <div>
-        <button className="order-button" onClick={() => setModalActive(true)}>
-          Place Order
-        </button>
-      </div>
+      <button className="order-button" onClick={() => setModalActive(true)}>
+        Place Order
+      </button>
     </div>
   </section>
 }

@@ -63,7 +63,7 @@ export async function getUser({email, password}){
 }
 
 export async function getUserById(uid, PROTECTED=true){
-  let columns = PROTECTED ? "id, first_name, last_name, email_addr" : '*'
+  let columns = PROTECTED ? "id, first_name, last_name, email_addr, shipping_addr" : '*'
   let query = `SELECT ${columns} FROM users WHERE id=?`;
   
   try{
