@@ -79,6 +79,3 @@ CREATE TABLE discounts(
   sku CHAR(5) NOT NULL,
   discount INT NOT NULL
 );
-
-ALTER TABLE users
-    ADD COLUMN address VARCHAR(200);
