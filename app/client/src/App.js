@@ -25,7 +25,7 @@ export default function App() {
             <Route path="/orders" element={<OrderHistoryPage activeUser={user} />} />
             <Route path="/orders/:id" element={<OrderDetailPage activeUser={user} />} />
             <Route path="/login" element={<AuthPage activeUser={user} setActiveUser={setActiveUser} />} />
-            <Route path="/profile" element={<ProfilePage activeUser={user} />} />
+            <Route path="/profile" element={<ProfilePage activeUser={user} setActiveUser={setActiveUser} />} />
         </Routes>
     );
 }
