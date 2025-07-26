@@ -4,6 +4,7 @@ import CartList from '../components/CartList/CartList';
 import Checkout from '../components/Checkout/Checkout';
 import Page from '../components/Page/Page'
 import EmptyCart from '../components/EmptyCart';
+import CartModal from '../components/CartModal/CartModal';
 import { useNavigate } from 'react-router-dom';
 
 const nearestHundredth = (val) => parseFloat(Math.round(val * 100)) / 100
@@ -12,6 +13,7 @@ export default function CartPage({activeUser}) {
     const navigate = useNavigate();
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState();
+    const [modalActive, setModalActive] = useState(false);
 
     useEffect(() => {
         if (!activeUser) {
@@ -57,7 +59,6 @@ export default function CartPage({activeUser}) {
     }
 
     useEffect(() => {
-        console.log("Using effect")
         async function fetchCart(){
             if (!activeUser) return;
             let totalCost = 0.0;
@@ -80,7 +81,7 @@ export default function CartPage({activeUser}) {
         else{
             return <>
                 <CartList items={cart} handleUpdate={updateCart} setTotal={setTotal} total={total}/>
-                <Checkout total={total} handleOrder={order}/>
+                <Checkout total={total} handleOrder={order} setModalActive={setModalActive} user={activeUser}/>
             </>
         }
     }

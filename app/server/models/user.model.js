@@ -8,19 +8,20 @@ const validateEmail = (email) => emailRegex.test(email);
 const validatePassword = (password) => passwordRegex.test(password);
 const validateName = (name) => nameRegex.test(name);
 
-export async function addUser({first, last, email, password}){
-  if(!validateEmail(email)){
-    return {error: 'INVALID_EMAIL'}
+export async function addUser({ first, last, email, password }) {
+  if (!validateEmail(email)) {
+    return { error: 'INVALID_EMAIL' };
   }
-  if(!validatePassword(password)){
-    return {error: 'INVALID_PASSWORD'}
+  if (!validatePassword(password)) {
+    return { error: 'INVALID_PASSWORD' };
   }
-  if(!validateName(first)){
-    return {error: 'INVALID_FIRSTNAME'}
+  if (!validateName(first)) {
+    return { error: 'INVALID_FIRSTNAME' };
   }
-  if(!validateName(last)){
-    return {error: 'INVALID_LASTNAME'}
+  if (!validateName(last)) {
+    return { error: 'INVALID_LASTNAME' };
   }
+
   const uid = randomUUID();
   const query = `INSERT INTO users (id, first_name, last_name, email_addr, password_hash) VALUES (?, ?, ?, ?, ?)`;
   try {
@@ -28,9 +29,9 @@ export async function addUser({first, last, email, password}){
     return { id: uid };
   } catch (err) {
     if (err.errno === 1062) {
-      return {error: 'EMAIL_IN_USE'};
+      return { error: 'EMAIL_IN_USE' };
     }
-    return {error: err.errno ?? err.message};
+    return { error: err.errno ?? err.message };
   }
 }
 
@@ -48,16 +49,16 @@ export async function getUser({ email, password }) {
     return user;
   } catch (err) {
     if (err.message === 'BAD_EMAIL' || err.message === 'BAD_PASSWORD') {
-      return {error: 'BAD_USER_LOOKUP'};
+      return { error: 'BAD_USER_LOOKUP' };
     }
-    return {error: err.errno ?? err.message};
+    return { error: err.errno ?? err.message };
   }
 }
 
 export async function getUserById(uid, PROTECTED = true) {
   const columns = PROTECTED
-      ? 'id, first_name, last_name, email_addr, shipping_addr'
-      : '*';
+    ? 'id, first_name, last_name, email_addr, shipping_addr'
+    : '*';
   const query = `SELECT ${columns} FROM users WHERE id = ?`;
   try {
     const [rows] = await db.execute(query, [uid]);
@@ -67,41 +68,42 @@ export async function getUserById(uid, PROTECTED = true) {
     return rows[0];
   } catch (err) {
     if (err.message === 'INVALID_UID') {
-      return {error: 'User not found.'};
+      return { error: 'User not found.' };
     }
-    return {error: err.errno ?? err.message};
+    return { error: err.errno ?? err.message };
   }
 }
 
 export async function getUsers(PROTECTED = true) {
   const selection = PROTECTED
-      ? 'first_name, last_name, email_addr'
-      : '*';
+    ? 'first_name, last_name, email_addr'
+    : '*';
   const query = `SELECT ${selection} FROM users`;
   try {
     const [rows] = await db.execute(query);
     return rows;
   } catch (err) {
-    return {error: err.errno ?? err.message};
+    return { error: err.errno ?? err.message };
   }
 }
 
-export async function updateUser({uid, first, last, email, password, shipping_addr}){
-  if(email && !validateEmail(email)){
-    return {error: 'INVALID_EMAIL'}
+export async function updateUser({ uid, first, last, email, password, shipping_addr }) {
+  if (email && !validateEmail(email)) {
+    return { error: 'INVALID_EMAIL' };
   }
-  if(password && !validatePassword(password)){
-    return {error: 'INVALID_PASSWORD'}
+  if (password && !validatePassword(password)) {
+    return { error: 'INVALID_PASSWORD' };
   }
-  if(first && !validateName(first)){
-    return {error: 'INVALID_FIRSTNAME'}
+  if (first && !validateName(first)) {
+    return { error: 'INVALID_FIRSTNAME' };
   }
-  if(last && !validateName(last)){
-    return {error: 'INVALID_LASTNAME'}
+  if (last && !validateName(last)) {
+    return { error: 'INVALID_LASTNAME' };
   }
+
   const prev = await getUserById(uid, false);
   if (prev.error) {
-    return {error: prev.error};
+    return { error: prev.error };
   }
 
   const newFirst = first ?? prev.first_name;
@@ -126,11 +128,10 @@ export async function updateUser({uid, first, last, email, password, shipping_ad
       newPassword,
       newShipping,
       uid
-    ])
+    ]);
 
     return await getUserById(uid);
-  }
-  catch(err){
-    return {error: err.errno ?? err.message}
+  } catch (err) {
+    return { error: err.errno ?? err.message };
   }
 }
