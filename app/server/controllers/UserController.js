@@ -3,7 +3,8 @@ import {
     addUser,
     getUser,
     getUserById,
-    getUsers
+    getUsers,
+    updateUser
   } from '../models/user.model.js';
   
   export class UserController {
@@ -46,36 +47,21 @@ import {
       return res.json(users);
     }
 
-    static async update(req, res) {
-      const {uid} = req.params;
-      const {first_name, last_name, email_addr, address} = req.body;
+    static async update(req, res){
+      const { uid } = req.params;
+      const { first, last, email, password, shipping_addr } = req.body;
+      const updated = await updateUser({
+        uid,
+        first,
+        last,
+        email,
+        password,
+        shipping_addr
+      });
 
-      try {
-        await db.query(
-            `UPDATE users
-             SET first_name = ?,
-                 last_name = ?,
-                 email_addr = ?,
-                 address = ?
-             WHERE id = ?`,
-            [first_name, last_name, email_addr, address, uid]
-        );
-
-        const [rows] = await db.query(
-            `SELECT id, first_name, last_name, email_addr, address
-             FROM users
-             WHERE id = ?`,
-            [uid]
-        );
-
-        if (rows.length === 0) {
-          return res.status(404).json({error: 'User not found'});
-        }
-
-        return res.json(rows[0]);
-      } catch (err) {
-        console.error('Error in UserController.update:', err);
-        return res.status(500).json({error: 'Server error'});
+      if (updated.error) {
+        return res.status(400).json({ error: updated.error });
       }
+      return res.json(updated);
     }
   }

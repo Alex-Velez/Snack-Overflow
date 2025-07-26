@@ -4,7 +4,7 @@ import Page from '../components/Page/Page';
 import ProfileEditModal from '../components/ProfileEditModal/ProfileEditModal';
 import './ProfilePage.css';
 
-export default function ProfilePage({ activeUser }) {
+export default function ProfilePage({ activeUser, setActiveUser }) {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [showEdit, setShowEdit] = useState(false);
@@ -39,7 +39,7 @@ export default function ProfilePage({ activeUser }) {
                     <button
                         className="logout-btn"
                         onClick={() => {
-                            // TODO: clear auth state
+                            setActiveUser(null);
                             navigate('/');
                         }}
                     >
@@ -59,7 +59,7 @@ export default function ProfilePage({ activeUser }) {
                         <div className="info-row">
                             <span className="info-label">Address:</span>
                             <span className="info-value">
-                {               user.address || <em>Not set</em>}
+                {               user.shipping_addr || <em>Not set</em>}
                             </span>
                         </div>
 
@@ -78,7 +78,6 @@ export default function ProfilePage({ activeUser }) {
                     user={user}
                     onClose={() => setShowEdit(false)}
                     onSave={updatedUser => {
-                        // for now just merge locally, will fix later
                         setUser(updatedUser);
                         setShowEdit(false);
                     }}
