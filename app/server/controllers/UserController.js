@@ -48,21 +48,19 @@ import {
     }
 
     static async update(req, res){
-      const { uid, first, last, email, password, address } = req.body;
-      const result = await updateUser({
+      const { uid } = req.params;
+      const { first, last, email, password, shipping_addr } = req.body;
+      const updated = await updateUser({
         uid,
         first,
         last,
         email,
         password,
-        address
-      })
+        shipping_addr
+      });
 
-      if (result.error) {
-        return res.status(500).json({ error: result.error });
+      if (updated.error) {
+        return res.status(400).json({ error: updated.error });
       }
-      return res.json({success: true});
+      return res.json(updated);
     }
-  }
-  
-
