@@ -10,10 +10,10 @@ const BUTTON_SIZE = 50;
 export default function Header({ user }) {
     const navigate = useNavigate();
     const isLoggedIn = Boolean(user);
-    function handleSearch(search){
+    function handleSearch(search) {
         navigate(`/shop/?search=${encodeURIComponent(search.toLowerCase())}`);
     }
-    
+
     return (
         <header className="header">
 

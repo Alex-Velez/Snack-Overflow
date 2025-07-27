@@ -21,11 +21,11 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/uploads', express.static(DB_UPLOADS_PATH)); 
+app.use('/uploads', express.static(DB_UPLOADS_PATH));
 
-app.use('/api/items', itemRouter);  
-app.use('/api/users', userRouter);  
-app.use('/api/transactions', transactionsRouter);   
+app.use('/api/items', itemRouter);
+app.use('/api/users', userRouter);
+app.use('/api/transactions', transactionsRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/discount', discountRouter)
 app.use("/api/categories", categoriesRouter);

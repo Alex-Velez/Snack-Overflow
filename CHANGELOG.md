@@ -57,3 +57,7 @@
   - Updated grocery screen.
   - Updated full user backend and implemented frontend to include addresses.
   - Added intermediate modal to cart screen to verify address.
+
+**V07.27**
+  - Added taxing to checkout.
+  - Profile page added.

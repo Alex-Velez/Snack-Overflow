@@ -1,3 +1,4 @@
+/* <<<<<<< HEAD */
 .cart-item{
   background-color: var(--main-color);
   display: flex;
@@ -9,6 +10,7 @@
   background-color: var(--secondary-color);
   color: var(--main-color);
   border-radius: var(--common-radius);
+  margin-bottom: 12px
 }
 .cart-item-left{
   display: flex;
@@ -22,14 +24,15 @@
   align-items: start;
   justify-content: center;
   gap: 5px;
-  flex: .9
+  flex: 1;
+  text-overflow: ellipsis;
 }
 
-.text-info *{
-  margin: 0px;
+.text-info * {
+    margin: 0px;
 }
 
-.icon{
-  aspect-ratio: 1/1;
-  height: 100%;
+.icon {
+    aspect-ratio: 1/1;
+    height: 100%;
 }

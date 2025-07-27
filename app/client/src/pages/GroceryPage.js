@@ -4,9 +4,9 @@ import Page from '../components/Page/Page';
 import './GroceryPage.css';
 
 export default function GroceryPage({ activeUser }) {
-  const [searchParams] = useSearchParams();
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+    const [searchParams] = useSearchParams();
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(true);
 
   useEffect(() => {
   async function load() {
@@ -44,33 +44,32 @@ export default function GroceryPage({ activeUser }) {
     }
   }
 
+        load();
+    }, [searchParams]);
 
-    load();
-  }, [searchParams]);
-
-  return (
-    <Page activeUser={activeUser}>
-      <h1 className="gp-title">Groceries</h1>
-      {loading && <p>Loading...</p>}
-      {!loading && items.length === 0 && <p>No items found.</p>}
-      <div className="gp-grid">
-        {items.map(item => (
-          <GroceryCard key={item.sku} item={item} />
-        ))}
-      </div>
-    </Page>
-  );
+    return (
+        <Page activeUser={activeUser}>
+            <h1 className="gp-title">Groceries</h1>
+            {loading && <p>Loading...</p>}
+            {!loading && items.length === 0 && <p>No items found.</p>}
+            <div className="gp-grid">
+                {items.map(item => (
+                    <GroceryCard key={item.sku} item={item} />
+                ))}
+            </div>
+        </Page>
+    );
 }
 
 function GroceryCard({ item }) {
-  return (
-    <div className="gp-card">
-      {item.img_path && (
-        <img src={item.img_path} alt={item.item_name} className="gp-img" />
-      )}
-      <h3 className="gp-name">{item.item_name}</h3>
-      <p className="gp-price">${Number(item.price).toFixed(2)}</p>
-      <button className="gp-btn" disabled>Add to Cart</button>
-    </div>
-  );
+    return (
+        <div className="gp-card">
+            {item.img_path && (
+                <img src={item.img_path} alt={item.item_name} className="gp-img" />
+            )}
+            <h3 className="gp-name">{item.item_name}</h3>
+            <p className="gp-price">${Number(item.price).toFixed(2)}</p>
+            <button className="gp-btn" disabled>Add to Cart</button>
+        </div>
+    );
 }

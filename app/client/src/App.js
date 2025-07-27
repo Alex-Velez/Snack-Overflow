@@ -9,9 +9,6 @@ import ProfilePage from "./pages/ProfilePage";
 import GroceryPage from './pages/GroceryPage';
 import { useState } from 'react';
 
-//Pass a test user onto cart to test it if awaiting log-in function
-//let testUser = "b7dfd370-5b6a-11f0-bbe7-60dd8ec85f4f"
-
 export default function App() {
   const [user, setUser] = useState(() => {
   return localStorage.getItem("activeUser") || null;

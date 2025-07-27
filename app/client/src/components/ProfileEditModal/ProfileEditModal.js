@@ -6,7 +6,7 @@ export default function ProfileEditModal({ user, onClose, onSave }) {
         first_name: user.first_name || '',
         last_name: user.last_name || '',
         email_addr: user.email_addr || '',
-        address: user.address || ''
+        shipping_addr: user.shipping_addr || ''
     });
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
@@ -19,9 +19,10 @@ export default function ProfileEditModal({ user, onClose, onSave }) {
         e.preventDefault();
         setSaving(true);
         setError('');
+
         try {
             const res = await fetch(`/api/users/${user.id}`, {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form)
             });
@@ -70,8 +71,8 @@ export default function ProfileEditModal({ user, onClose, onSave }) {
                     <label>
                         Address
                         <input
-                            name="address"
-                            value={form.address}
+                            name="shipping_addr"
+                            value={form.shipping_addr}
                             onChange={handleChange}
                             placeholder="123 Main St, City, State"
                         />
