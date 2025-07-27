@@ -66,8 +66,8 @@ export default function ProfilePage({ activeUser, setActiveUser }) {
                         <div className="info-row">
                             <span className="info-label">Address:</span>
                             <span className="info-value">
-                  {user.shipping_addr || <em>Not set</em>}
-                </span>
+                                {user.shipping_addr || <em>Not set</em>}
+                            </span>
                         </div>
                         <div className="profile-actions">
                             <button onClick={() => setShowEdit(true)}>
