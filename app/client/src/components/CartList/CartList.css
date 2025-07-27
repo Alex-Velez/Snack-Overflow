@@ -13,7 +13,6 @@
     text-shadow: 0 0 8px rgba(82, 82, 82, 0.5);
 }
 
-<<<<<<< HEAD
 .cart-items{
   overflow-y: scroll;
   height: 100%;
@@ -24,19 +23,7 @@
   padding-top: 10px;
   width: fit-content;
   scrollbar-color: var(--main-color);
-=======
-.cart-items {
-    overflow-y: scroll;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overscroll-behavior: none;
-    gap: 12px;
-    padding-left: 10px;
-    padding-top: 10px;
-    width: fit-content;
-    scrollbar-color: var(--main-color);
->>>>>>> 0f714b6bbac6756dc6a29497a01d46949f90bf08
+
 }
 
 .cart-items::-webkit-scrollbar {

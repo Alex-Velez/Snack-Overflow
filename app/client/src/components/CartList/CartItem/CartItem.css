@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+/* <<<<<<< HEAD */
 .cart-item{
   background-color: var(--main-color);
   display: flex;
@@ -24,35 +24,8 @@
   align-items: start;
   justify-content: center;
   gap: 5px;
-  flex: 1
-=======
-.cart-item {
-    background-color: var(--main-color);
-    display: flex;
-    flex-direction: row;
-    height: 100px;
-    width: 750px;
-    gap: 25px;
-    padding: 10px;
-    background-color: var(--secondary-color);
-    color: var(--main-color);
-    border-radius: var(--common-radius);
-}
-
-.cart-item-left {
-    display: flex;
-    gap: 10px;
-    padding-left: 10px;
->>>>>>> 0f714b6bbac6756dc6a29497a01d46949f90bf08
-}
-
-.text-info {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
-    gap: 5px;
-    flex: .9
+  flex: 1;
+  text-overflow: ellipsis;
 }
 
 .text-info * {

@@ -26,7 +26,7 @@ export default function CartItem({ item, updateItem, total, setTotal }) {
                     {item.item_name}
                 </h1>
                 <h2 style={priceStyle}>
-                    {item.price}
+                    ${item.price}
                 </h2>
             </div>
         </div>
