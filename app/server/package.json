@@ -10,7 +10,8 @@
   "author": "Snack Overflow",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^17.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "mysql2": "^3.14.1",
     "nodemon": "^3.1.10",
