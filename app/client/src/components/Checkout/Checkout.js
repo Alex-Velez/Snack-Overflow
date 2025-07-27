@@ -4,18 +4,21 @@ import { useState, useEffect } from "react";
 import CartModal from "../CartModal/CartModal.js";
 import { useNavigate } from "react-router-dom";
 
+const TAX_RATE = .0825;
 
-export default function Checkout({total = 0, handleOrder, user, address}){
+
+export default function Checkout({total=0, handleOrder, user, address}){
   const [hasTip, setHasTip] = useState(false);
   const [fastDelivery, setfastDelivery] = useState(false);
   const [discountCode, setDiscountCode] = useState();
   const [activeDiscount, setActiveDiscount] = useState(null);
   const [modalActive, setModalActive] = useState(false);
   const [initialAddress, setAddress] = useState();
+  const [taxAmount, setTaxAmount] = useState(total * TAX_RATE);
   const subtotal = Number(total || 0);
   const tip = hasTip ? 1 : 0;
   const DELIVERY_FEE = fastDelivery ? 4.99 : 2.99;
-  const finalTotal = (subtotal + DELIVERY_FEE + tip).toFixed(2);
+  const finalTotal = (subtotal + DELIVERY_FEE + tip + taxAmount).toFixed(2);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,8 +56,9 @@ export default function Checkout({total = 0, handleOrder, user, address}){
         <h1>
           Subtotal: ${finalTotal}
         </h1>
-        <h2>
+        <h2 style={{margin: "10px"}}>
           <p>Total: ${parseFloat(total)}</p>
+          <p>Sales Tax: ${parseFloat(taxAmount).toFixed(2)}</p>
           <p>Delivery Fee: ${DELIVERY_FEE.toFixed(2)}</p>
           <div style={{marginTop: "6px", fontSize: "14px", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", color: ""}}>
             <Checkbox handleChange={setfastDelivery}/>

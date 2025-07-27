@@ -17,11 +17,9 @@ import {
 }
 from "../models/discount.model.js"
 
-function printObj(obj){
-  for (let key in obj) {
-    console.log(`${key}: ${obj[key]}`);
-  }
-}
+
+
+const TAX_RATE = .0825
 
 export class CartController{
   static async update(req, res){
@@ -80,14 +78,16 @@ export class CartController{
     let cart = await getCart(userId);
     let discountObj = await getDiscount(discountCode);
     let discount = discountObj ? parseInt(discountObj.discount) * .01 : null;
-    var total = fastDelivery ? 4.99 : 2.99
+    var total = fastDelivery ? 4.99 : 2.99;
     cart.forEach((item) => {
-      let thisPrice = parseFloat(item.price)
+      let thisPrice = parseFloat(item.price);
       if(discount && (discountObj.sku === '00000' || item.sku === discountObj.sku)){
-        total += (thisPrice - (thisPrice * parseFloat(discount))) * parseInt(item.item_cnt);
+        let thisIncr = (thisPrice - (thisPrice * parseFloat(discount))) * parseInt(item.item_cnt);
+        total += thisIncr + (thisIncr * TAX_RATE);
       }
       else{
-        total += thisPrice * parseInt(item.item_cnt);
+        let thisIncr = thisPrice * parseInt(item.item_cnt)
+        total += thisIncr + (thisIncr * TAX_RATE);
       }
     })
     if(addTip){
