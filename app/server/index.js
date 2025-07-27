@@ -20,18 +20,18 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/uploads', express.static(DB_UPLOADS_PATH)); 
+app.use('/uploads', express.static(DB_UPLOADS_PATH));
 
-app.use('/api/items', itemRouter);  
-app.use('/api/users', userRouter);  
-app.use('/api/transactions', transactionsRouter);   
+app.use('/api/items', itemRouter);
+app.use('/api/users', userRouter);
+app.use('/api/transactions', transactionsRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/discount', discountRouter)
 
 app.get('/', (req, res) => {
-  res.send('🍿 Snack-Overflow API is up and running');
+    res.send('🍿 Snack-Overflow API is up and running');
 });
 
 app.listen(PORT, () => {
-  console.log(` Server running at http://localhost:${PORT}`);
+    console.log(` Server running at http://localhost:${PORT}`);
 });

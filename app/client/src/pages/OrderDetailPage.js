@@ -4,7 +4,7 @@ import Header from '../components/Header/Header.js';
 export default function OrderDetailPage() {
     return (
         <>
-            <Header/>
+            <Header />
             <h1>Order Details</h1>
             {/* TODO: replace with order details UI */}
         </>

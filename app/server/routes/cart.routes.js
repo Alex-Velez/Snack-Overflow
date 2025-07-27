@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import { CartController } from '../controllers/CartController.js';
 
 const router = Router();

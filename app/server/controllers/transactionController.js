@@ -1,88 +1,88 @@
 // controllers/TransactionController.js
 import {
-  addTransaction,
-  addTransactionItem,
-  removeTransactionItem,
-  getTransactionById,
-  getTransactionsByUid,
-  updateTransactionStatus
+    addTransaction,
+    addTransactionItem,
+    removeTransactionItem,
+    getTransactionById,
+    getTransactionsByUid,
+    updateTransactionStatus
 } from '../models/transaction.model.js';
 
 export class TransactionController {
-  
-  static async start(req, res) {
-    const { userId, total } = req.body;
-    const result = await addTransaction(userId, total);
 
-    if (result.error) {
-      return res.status(400).json({ error: result.error });
+    static async start(req, res) {
+        const { userId, total } = req.body;
+        const result = await addTransaction(userId, total);
+
+        if (result.error) {
+            return res.status(400).json({ error: result.error });
+        }
+
+        const transactionId = result.id ?? result.insertId;
+        return res.status(201).json({ transactionId });
     }
 
-    const transactionId = result.id ?? result.insertId;
-    return res.status(201).json({ transactionId });
-  }
 
+    static async addItem(req, res) {
+        const { tid } = req.params;
+        const { sku, quantity } = req.body;
+        const result = await addTransactionItem(tid, sku, quantity);
 
-  static async addItem(req, res) {
-    const { tid } = req.params;
-    const { sku, quantity } = req.body;
-    const result = await addTransactionItem(tid, sku, quantity);
-
-    if (result.error) {
-      return res.status(400).json({ error: result.error });
+        if (result.error) {
+            return res.status(400).json({ error: result.error });
+        }
+        return res.status(201).json({ message: 'Item added to transaction.' });
     }
-    return res.status(201).json({ message: 'Item added to transaction.' });
-  }
 
 
-  static async removeItem(req, res) {
-    const { tid, sku } = req.params;
-    const result = await removeTransactionItem(tid, sku);
+    static async removeItem(req, res) {
+        const { tid, sku } = req.params;
+        const result = await removeTransactionItem(tid, sku);
 
-    if (result.error) {
-      return res.status(400).json({ error: result.error });
+        if (result.error) {
+            return res.status(400).json({ error: result.error });
+        }
+        return res.json({ message: 'Item removed from transaction.' });
     }
-    return res.json({ message: 'Item removed from transaction.' });
-  }
 
-  static async getById(req, res) {
-    const { tid } = req.params;
-    const tx = await getTransactionById(tid);
+    static async getById(req, res) {
+        const { tid } = req.params;
+        const tx = await getTransactionById(tid);
 
-    if (tx.error) {
-      return res.status(404).json({ error: tx.error });
+        if (tx.error) {
+            return res.status(404).json({ error: tx.error });
+        }
+        return res.json(tx);
     }
-    return res.json(tx);
-  }
 
 
-  static async listByUser(req, res) {
-    const { uid } = req.params;
-    const list = await getTransactionsByUid(uid);
+    static async listByUser(req, res) {
+        const { uid } = req.params;
+        const list = await getTransactionsByUid(uid);
 
-    if (list.error) {
-      return res.status(400).json({ error: list.error });
+        if (list.error) {
+            return res.status(400).json({ error: list.error });
+        }
+        return res.json(list);
     }
-    return res.json(list);
-  }
 
-  static async markDelivered(req, res){
-    const { tid } = req.body;
-    const result = await updateTransactionStatus(tid, "DELIVERED");
+    static async markDelivered(req, res) {
+        const { tid } = req.body;
+        const result = await updateTransactionStatus(tid, "DELIVERED");
 
-    if(result.error){
-      return res.status(400).json(result.error);
+        if (result.error) {
+            return res.status(400).json(result.error);
+        }
+        return res.json({ message: "Transaction marked delivered" })
     }
-    return res.json({message: "Transaction marked delivered"})
-  }
 
-  static async cancel(req, res){
-    const { tid } = req.body;
-    const result = await updateTransactionStatus(tid, "CANCELLED");
+    static async cancel(req, res) {
+        const { tid } = req.body;
+        const result = await updateTransactionStatus(tid, "CANCELLED");
 
-    if(result.error){
-      return res.status(400).json(result.error);
+        if (result.error) {
+            return res.status(400).json(result.error);
+        }
+        return res.json({ message: "Transaction cancelled" })
     }
-    return res.json({message: "Transaction cancelled"})
-  }
 }

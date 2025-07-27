@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const nearestHundredth = (val) => parseFloat(Math.round(val * 100)) / 100
 
-export default function CartPage({activeUser}) {
+export default function CartPage({ activeUser }) {
     const navigate = useNavigate();
     const [cart, setCart] = useState([]);
     const [total, setTotal] = useState();
@@ -22,7 +22,7 @@ export default function CartPage({activeUser}) {
         }
     }, [activeUser, navigate]);
 
-    async function order(hasTip, fastDelivery, discountCode){
+    async function order(hasTip, fastDelivery, discountCode) {
         let body = {
             "userId": activeUser,
             "addTip": hasTip,
@@ -39,7 +39,7 @@ export default function CartPage({activeUser}) {
         })
     }
 
-    async function updateCart(sku, cnt){
+    async function updateCart(sku, cnt) {
         let body = {
             "userId": activeUser,
             "sku": sku,
@@ -59,7 +59,7 @@ export default function CartPage({activeUser}) {
     }
 
     useEffect(() => {
-        async function fetchCart(){
+        async function fetchCart() {
             if (!activeUser) return;
             let totalCost = 0.0;
             const res = await fetch(`/api/cart/${activeUser}`);
@@ -75,13 +75,13 @@ export default function CartPage({activeUser}) {
     }, [activeUser]);
     console.log(cart);
     const mainBody = () => {
-        if(cart.length === 0){
-            return <EmptyCart/>
+        if (cart.length === 0) {
+            return <EmptyCart />
         }
-        else{
+        else {
             return <>
-                <CartList items={cart} handleUpdate={updateCart} setTotal={setTotal} total={total}/>
-                <Checkout total={total} handleOrder={order} setModalActive={setModalActive} user={activeUser}/>
+                <CartList items={cart} handleUpdate={updateCart} setTotal={setTotal} total={total} />
+                <Checkout total={total} handleOrder={order} setModalActive={setModalActive} user={activeUser} />
             </>
         }
     }
