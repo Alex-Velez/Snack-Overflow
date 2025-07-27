@@ -1,5 +1,34 @@
 USE snackOverflow;
 
+
+-- need to implement status
+-- transactions
+INSERT IGNORE INTO transactions
+  (id,   user_id, creation_date,       delivered_date,       expected_date,       total,  order_status, created_at)
+VALUES
+  -- still-open order for u1
+  ('t1', 'u1',    '2025-07-26 15:43:00', NULL,                '2025-07-28 12:00:00', 56.43, 'CREATED',    '2025-07-26 15:43:00'),
+  -- delivered order for u1
+  ('t2', 'u1',    '2025-07-25 12:15:00', '2025-07-26 09:00:00','2025-07-26 09:00:00', 37.50, 'DELIVERED',  '2025-07-25 12:15:00'),
+  -- cancelled order for u1
+  ('t5', 'u1',    '2025-07-27 09:00:00', NULL,                NULL,                 12.99, 'CANCELLED',  '2025-07-27 09:00:00');
+
+INSERT IGNORE INTO transaction_items (transaction_id, item_id, item_cnt) VALUES
+  -- t1 (u1)
+  ('t1', 'A0001', 2),
+  ('t1', 'A0002', 1),
+  ('t1', 'A0005', 3),
+
+  -- t2 (u1)
+  ('t2', 'A0003', 1),
+  ('t2', 'A0004', 1),
+  ('t2', 'A0006', 2),
+
+  -- t5 (u1, cancelled)
+  ('t5', 'A0006', 1);
+
+-- transactions
+
 INSERT INTO users (id, first_name, last_name, email_addr, password_hash)
 VALUES 
 ('u1', 'Justin', 'Pardo', 'justin@gmail.com', 'snack');
@@ -27,4 +56,3 @@ INSERT INTO items (sku, upc, item_name, item_desc, price, rating, category, img_
 (71820, 444444444441, 'Loaf of White Bread', '', 1.99, 4.0, 'bread', '/uploads/items/white_bread.png'),
 (29573, 555555555556, 'Loaf of Whole Grain Bread', '', 2.49, 3.7, 'bread', '/uploads/items/whole_grain_bread.png'),
 (86149, 666666666661, 'Cup of Peach Yogurt', '', 0.89, 4.3, 'dairy', '/uploads/items/yogurt.png');
-

@@ -1,0 +1,70 @@
+.orderHistLayout {
+  display: flex;
+  height: calc(100vh - 80px);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.orderList {
+  width: 30%;
+  color: var(--main-color);
+  max-width: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+  border-right: 1px solid #ccc;
+}
+
+.orderDetails {
+  flex: 1;
+  padding-left: 20px;
+  color: var(--main-color);
+  overflow-y: auto;
+}
+
+.orderSummary {
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  color: white;
+  background: linear-gradient(0deg, var(--main-color), var(--main-hover));
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.orderSummary:hover {
+  background: linear-gradient(0deg, #2C524B, #24433E);
+}
+
+.orderSummary.selected {
+  border: 2px solid #006400;
+}
+
+.orderCard {
+  border-radius: 12px;
+  padding: 16px;
+  color: white;
+  background: linear-gradient(0deg, var(--main-color), var(--main-hover));
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.orderItems {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.orderStatus {
+  text-transform: capitalize;
+  font-weight: bold;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  background-color: #e0e0e0;
+  color: var(--main-color);
+}

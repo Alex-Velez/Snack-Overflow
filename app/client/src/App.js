@@ -10,21 +10,29 @@ import GroceryPage from './pages/GroceryPage';
 import { useState } from 'react';
 
 export default function App() {
-    const [user, setUser] = useState();
-    function setActiveUser(uid) {
-        setUser(uid);
-    }
+  const [user, setUser] = useState(() => {
+  return localStorage.getItem("activeUser") || null;
+});
 
-    return (
-        <Routes>
-            <Route path="/" element={<HomePage activeUser={user} />} />
-            <Route path="/category" element={<CategoryPage activeUser={user} />} />
-            <Route path="/cart" element={<CartPage activeUser={user} />} />
-            <Route path="/orders" element={<OrderHistoryPage activeUser={user} />} />
-            <Route path="/orders/:id" element={<OrderDetailPage activeUser={user} />} />
-            <Route path="/login" element={<AuthPage activeUser={user} setActiveUser={setActiveUser} />} />
-            <Route path="/profile" element={<ProfilePage activeUser={user} setActiveUser={setActiveUser} />} />
-            <Route path="/shop" element={<GroceryPage activeUser={user} />} />
-        </Routes>
-    );
+  function setActiveUser(uid){
+    setUser(uid);
+    if (uid) {
+    localStorage.setItem("activeUser", uid);
+  } else {
+    localStorage.removeItem("activeUser");
+  }
+  }
+  
+  return (
+      <Routes>
+          <Route path="/" element={<HomePage activeUser={user}/>} />
+          <Route path="/:categorySlug" element={<CategoryPage activeUser={user} />} />
+          <Route path="/cart" element={<CartPage activeUser={user}/>} />
+          <Route path="/orders" element={<OrderHistoryPage activeUser={user}/>} />
+          <Route path="/orders/:id" element={<OrderDetailPage activeUser={user}/>} />
+          <Route path="/login" element={<AuthPage activeUser={user} setActiveUser={setActiveUser}/>}/>
+          <Route path="/profile" element={<ProfilePage activeUser={user} setActiveUser={setActiveUser} />} />
+          <Route path="/shop" element={<GroceryPage activeUser={user}/>} />
+      </Routes>
+  );
 }

@@ -18,9 +18,11 @@ export class TransactionController {
             return res.status(400).json({ error: result.error });
         }
 
-        const transactionId = result.id ?? result.insertId;
-        return res.status(201).json({ transactionId });
-    }
+
+    const transactionId = result.id;
+    return res.status(201).json({ transactionId });
+  }
+
 
 
     static async addItem(req, res) {

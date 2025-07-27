@@ -8,35 +8,41 @@ export default function GroceryPage({ activeUser }) {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        async function load() {
-            setLoading(true);
-            try {
-                const search = searchParams.get('search')?.toLowerCase() || '';
-                const categories = searchParams.get('categories')?.split(',') || [];
+  useEffect(() => {
+  async function load() {
+    setLoading(true);
 
-                const res = await fetch(`/api/items/search/${search}`);
-                let data = await res.json();
+    // grab the raw query param (e.g. ?search=apple)
+    const rawSearch = searchParams.get('search') || '';
+    const searchTerm = rawSearch.toLowerCase().trim();
 
-                if (categories.length && categories[0] !== '') {
-                    data = data.filter(item =>
-                        categories.includes(item.category.toLowerCase())
-                    );
-                }
+    // build the correct endpoint
+    const endpoint = searchTerm
+      ? `/api/items/search/${encodeURIComponent(searchTerm)}`
+      : '/api/items';
 
-                if (search) {
-                    data = data.filter(item =>
-                        item.item_name.toLowerCase().includes(search)
-                    );
-                }
+    try {
+      const res = await fetch(endpoint);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      let data = await res.json();
 
-                setItems(Array.isArray(data) ? data : []);
-            } catch (err) {
-                console.error('Error fetching items:', err);
-                setItems([]);
-            }
-            setLoading(false);
-        }
+      // now apply any client-side category filtering if you want
+      const rawCats = searchParams.get('categories') || '';
+      const categories = rawCats.split(',').map(c => c.trim().toLowerCase()).filter(Boolean);
+      if (categories.length) {
+        data = data.filter(item =>
+          categories.includes(item.category.toLowerCase())
+        );
+      }
+
+      setItems(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('Fetch failed:', err);
+      setItems([]);
+    } finally {
+      setLoading(false);
+    }
+  }
 
         load();
     }, [searchParams]);
