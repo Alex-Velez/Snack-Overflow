@@ -1,4 +1,4 @@
-import  { Router } from 'express'
+import { Router } from 'express'
 import { DiscountController } from '../controllers/DiscountController.js'
 
 const router = Router();
