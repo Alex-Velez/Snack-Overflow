@@ -9,6 +9,7 @@
   background-color: var(--secondary-color);
   color: var(--main-color);
   border-radius: var(--common-radius);
+  margin-bottom: 12px
 }
 .cart-item-left{
   display: flex;
@@ -22,7 +23,7 @@
   align-items: start;
   justify-content: center;
   gap: 5px;
-  flex: .9
+  flex: 1
 }
 
 .text-info *{
