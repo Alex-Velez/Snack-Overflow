@@ -1,4 +1,3 @@
-import React, { use } from 'react';
 import Page from '../components/Page/Page';
 import AuthButtons from '../components/AuthButtons/AuthButtons';
 import AuthModal from '../components/AuthModal/AuthModal';

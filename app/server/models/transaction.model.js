@@ -1,15 +1,16 @@
-
 import db from "../db.js";
 import { getItemBySku } from "./item.model.js";
-import { randomUUID } from 'crypto';
+import { randomUUID } from "crypto";
 
 const validStatus = (status) =>
   ["CREATED", "DELIVERED", "CANCELLED"].includes(status);
 
 export async function addTransaction(uid, total) {
   const tid = randomUUID();
-  const columns = `(id, user_id, creation_date, total, order_status)`;
-  const query = `INSERT INTO transactions ${columns} VALUES (?, ?, NOW(), ?, "CREATED")`;
+  const query = `
+    INSERT INTO transactions (id, user_id, creation_date, total, order_status)
+    VALUES (?, ?, NOW(), ?, "CREATED")
+  `;
   try {
     const [result] = await db.execute(query, [tid, uid, total]);
     return { id: tid, data: result };
@@ -22,12 +23,13 @@ export async function addTransaction(uid, total) {
 }
 
 export async function addTransactionItem(tid, itemId, itemCnt) {
-  const columns = `(transaction_id, item_id, item_cnt)`;
-  const query = `INSERT INTO transaction_items ${columns} VALUES (?, ?, ?)`;
+  const query = `
+    INSERT INTO transaction_items (transaction_id, item_id, item_cnt)
+    VALUES (?, ?, ?)
+  `;
   try {
-    if (itemCnt < 0) {
-      throw new Error("NEGATIVE_QUANTITY");
-    }
+    if (itemCnt < 0) throw new Error("NEGATIVE_QUANTITY");
+
     const [result] = await db.execute(query, [tid, itemId, itemCnt]);
     return result;
   } catch (err) {
@@ -47,8 +49,10 @@ export async function addTransactionItem(tid, itemId, itemCnt) {
 }
 
 export async function getTransactionItem(transactionId, sku) {
-  const query =
-    "SELECT * FROM transaction_items WHERE transaction_id = ? AND item_id = ?";
+  const query = `
+    SELECT * FROM transaction_items
+     WHERE transaction_id = ? AND item_id = ?
+  `;
   try {
     const [result] = await db.execute(query, [transactionId, sku]);
     return result[0];
@@ -61,8 +65,10 @@ export async function getTransactionItem(transactionId, sku) {
 }
 
 export async function removeTransactionItem(transactionId, sku) {
-  const query =
-    "DELETE FROM transaction_items WHERE transaction_id = ? AND item_id = ?";
+  const query = `
+    DELETE FROM transaction_items
+     WHERE transaction_id = ? AND item_id = ?
+  `;
   try {
     const [result] = await db.execute(query, [transactionId, sku]);
     if (result.affectedRows === 0) {
@@ -82,15 +88,21 @@ async function updateTransactionItem({
   item_cnt,
   item_id,
 }) {
-  const query =
-    "UPDATE transaction_items SET item_cnt = item_cnt + ? WHERE transaction_id = ? AND item_id = ?";
+  const query = `
+    UPDATE transaction_items
+       SET item_cnt = item_cnt + ?
+     WHERE transaction_id = ? AND item_id = ?
+  `;
   try {
-    const pre = await getTransactionItem(transactionId, sku);
-    if (pre && parseInt(pre.item_cnt) + itemCnt <= 0) {
-      return await removeTransactionItem(transactionId, sku);
+    const pre = await getTransactionItem(transactionId ?? transaction_id, sku ?? item_id);
+    const qty = itemCnt ?? item_cnt;
+
+    if (pre && parseInt(pre.item_cnt) + qty <= 0) {
+      return await removeTransactionItem(transactionId ?? transaction_id, sku ?? item_id);
     }
+
     const [result] = await db.execute(query, [
-      itemCnt ?? item_cnt,
+      qty,
       transactionId ?? transaction_id,
       sku ?? item_id,
     ]);
@@ -101,9 +113,8 @@ async function updateTransactionItem({
 }
 
 export async function getTransactionById(tid) {
-  // Only select the ID, skip any date fields
   const tQuery = `
-    SELECT id
+    SELECT id, user_id, creation_date, delivered_date, expected_date, order_status
       FROM transactions
      WHERE id = ?
   `;
@@ -140,7 +151,17 @@ export async function getTransactionById(tid) {
       })
     );
 
-    return { id: tx.id, items };
+    return {
+      info: {
+        id: tx.id,
+        uid: tx.user_id,
+        status: tx.order_status,
+        created: tx.creation_date,
+        expected: tx.expected_date,
+        delivered: tx.delivered_date,
+      },
+      items,
+    };
   } catch (err) {
     return { error: err.message || "Failed to fetch transaction" };
   }
@@ -151,17 +172,13 @@ export async function getTransactionsByUid(uid) {
     SELECT id
       FROM transactions
      WHERE user_id = ?
-  ORDER BY created_at DESC
+  ORDER BY creation_date DESC
   `;
-
   try {
     const [rows] = await db.execute(query, [uid]);
-    console.log("🏷️ Query rows for user", uid, ":", rows);
-
     const transactions = await Promise.all(
       rows.map((row) => getTransactionById(row.id))
     );
-
     return transactions.filter((tx) => !tx.error);
   } catch (err) {
     return { error: err.errno ?? err.message };
@@ -170,16 +187,22 @@ export async function getTransactionsByUid(uid) {
 
 export async function updateTransactionStatus(tid, status) {
   const formatted = status.toUpperCase();
-  const prev = await getTransactionById(tid);
-  const prevStatus = prev.items ? prev.id : prev.info?.status; // if needed
+  const transaction = await getTransactionById(tid);
+  const prevStatus = transaction.info?.status;
+
   if (!validStatus(formatted)) {
     return { error: "INVALID_STATUS" };
   }
+
   if (["DELIVERED", "CANCELLED"].includes(prevStatus)) {
     return { error: "INVALID_UPDATE" };
   }
 
-  const query = "UPDATE transactions SET order_status = ? WHERE id = ?";
+  const query = `
+    UPDATE transactions
+       SET order_status = ?
+     WHERE id = ?
+  `;
   try {
     await db.execute(query, [formatted, tid]);
     return { success: true };

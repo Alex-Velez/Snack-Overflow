@@ -48,12 +48,23 @@
 }
 
 .orderHeader {
-  font-weight: bold;
-  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .orderItems {
   list-style: none;
   padding-left: 0;
   margin: 0;
+}
+
+.orderStatus {
+  text-transform: capitalize;
+  font-weight: bold;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  background-color: #e0e0e0;
+  color: var(--main-color);
 }
