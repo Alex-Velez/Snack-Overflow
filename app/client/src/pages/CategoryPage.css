@@ -1,0 +1,40 @@
+.category-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.category-title {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.category-items {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  gap: 16px;
+}
+
+.item-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+}
+
+.item-name {
+  font-size: 1.2rem;
+  margin: 0 0 8px;
+}
+
+.item-price,
+.item-rating {
+  margin: 4px 0;
+  color: #555;
+}
+
+.error {
+  color: red;
+}

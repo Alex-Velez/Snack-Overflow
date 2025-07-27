@@ -9,34 +9,41 @@ export default function GroceryPage({ activeUser }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function load() {
-      setLoading(true);
-      try {
-        const search = searchParams.get('search')?.toLowerCase() || '';
-        const categories = searchParams.get('categories')?.split(',') || [];
-        
-        const res = await fetch(`/api/items/search/${search}`);
-        let data = await res.json();
-        
-        if (categories.length && categories[0] !== '') {
-          data = data.filter(item =>
-            categories.includes(item.category.toLowerCase())
-          );
-        }
-        
-        if (search) {
-          data = data.filter(item =>
-            item.item_name.toLowerCase().includes(search)
-          );
-        }
-        
-        setItems(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error('Error fetching items:', err);
-        setItems([]);
+  async function load() {
+    setLoading(true);
+
+    // grab the raw query param (e.g. ?search=apple)
+    const rawSearch = searchParams.get('search') || '';
+    const searchTerm = rawSearch.toLowerCase().trim();
+
+    // build the correct endpoint
+    const endpoint = searchTerm
+      ? `/api/items/search/${encodeURIComponent(searchTerm)}`
+      : '/api/items';
+
+    try {
+      const res = await fetch(endpoint);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      let data = await res.json();
+
+      // now apply any client-side category filtering if you want
+      const rawCats = searchParams.get('categories') || '';
+      const categories = rawCats.split(',').map(c => c.trim().toLowerCase()).filter(Boolean);
+      if (categories.length) {
+        data = data.filter(item =>
+          categories.includes(item.category.toLowerCase())
+        );
       }
+
+      setItems(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('Fetch failed:', err);
+      setItems([]);
+    } finally {
       setLoading(false);
     }
+  }
+
 
     load();
   }, [searchParams]);
