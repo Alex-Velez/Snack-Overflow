@@ -34,6 +34,7 @@ export default function AuthPage({ setActiveUser, activeUser }) {
             }
             else {
                 setActiveUser(result.id)
+                localStorage.setItem("activeUser", result.id);
                 navigate("/")
             }
         }

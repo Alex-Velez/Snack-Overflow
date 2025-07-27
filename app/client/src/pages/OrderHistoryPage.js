@@ -8,6 +8,7 @@ export default function OrderHistoryPage({ activeUser }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error,   setError]   = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     if (!activeUser) {
@@ -38,29 +39,43 @@ export default function OrderHistoryPage({ activeUser }) {
   return (
     <>
       <Header />
-      <div className="order-history-container">
-        <h1>Order History</h1>
-
-        {loading && <p>Loading…</p>}
-        {error   && <p className="error">{error}</p>}
-        {!loading && !error && orders.length === 0 && (
-          <p>No orders found.</p>
-        )}
-
-        {!loading && !error && orders.map((order) => (
-          <div key={order.id} className="order-card">
-            <div className="order-header">
-              <span className="order-id">#{order.id}</span>
+      <div className="orderHistLayout">
+        <div className="orderList">
+          <h2>Your Orders</h2>
+          {loading && <p>Loading…</p>}
+          {error && <p className="error">{error}</p>}
+          {!loading && !error && orders.length === 0 && <p>No orders found.</p>}
+          {!loading && !error && orders.map((order) => (
+            <div
+              key={order.id}
+              className={`orderSummary ${selectedOrder?.id === order.id ? 'selected' : ''}`}
+              onClick={() => setSelectedOrder(order)}
+            >
+              <p><strong>Order #{order.id}</strong></p>
+              <p>{order.items.length} item(s)</p>
             </div>
-            <ul className="order-items">
-              {order.items.map((item, idx) => (
-                <li key={idx}>
-                  • {item.name} (x{item.count}) — ${item.itemPrice.toFixed(2)}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        <div className="orderDetails">
+          <h2>Order Details</h2>
+          {selectedOrder ? (
+            <div className="orderCard">
+              <div className="orderHeader">
+                <span className="orderId">#{selectedOrder.id}</span>
+              </div>
+              <ul className="orderItems">
+                {selectedOrder.items.map((item, idx) => (
+                  <li key={idx}>
+                    • {item.name} (x{item.count}) — ${item.itemPrice.toFixed(2)}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p>Select an order to view details</p>
+          )}
+        </div>
       </div>
     </>
   );
