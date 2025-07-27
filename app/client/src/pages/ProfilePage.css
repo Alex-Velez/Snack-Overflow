@@ -2,49 +2,71 @@
     display: flex;
     flex: 1;
     gap: 1rem;
-    height: 100%;
+    align-items: flex-start;
+    padding: 0 0;
 }
 
 .profile-sidebar {
-    width: 250px;
-    background-color: var(--secondary-color);
+    width: 240px;
+    height: 42.58vh;
+    background: linear-gradient(to bottom, var(--main-color) 0%, var(--tertiary-select-color) 100%);
     border-radius: var(--common-radius);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2rem 1rem;
+    color: white;
 }
 
 .profile-avatar-wrapper {
-    background: white;
+    background: rgba(255,255,255,0.15);
     padding: 0.5rem;
     border-radius: 50%;
 }
 
 .profile-avatar {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid white;
 }
 
 .profile-name {
     margin-top: 1rem;
-    color: var(--main-color);
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     text-align: center;
     text-transform: capitalize;
+    font-family: 'Josefin Sans';
+}
+
+.sidebar-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    align-items: center;
+}
+
+.sidebar-actions button {
+    font-family: 'Josefin Sans';
+    width: 80%;
+    padding: 0.5rem;
+    border-radius: var(--common-radius);
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.view-orders-btn {
+    background: white;
+    color: var(--main-color);
 }
 
 .logout-btn {
-    margin-top: auto;
     background: var(--error);
     color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: var(--common-radius);
-    cursor: pointer;
-    font-weight: bold;
 }
 
 .profile-main {
@@ -54,25 +76,29 @@
 }
 
 .profile-info-card {
-    display: flex;
-    flex-direction: column;
     background: var(--secondary-color);
     border-radius: var(--common-radius);
     padding: 1.5rem;
-    flex: 1;
+    width: 100%;
+    max-width: 700px;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
     box-sizing: border-box;
 }
 
 .info-heading {
     margin-top: 0;
     color: var(--main-color);
-    font-size: 1.25rem;
+    font-size: 1.3rem;
+    font-family: 'Josefin Sans';
 }
 
 .info-row {
     display: flex;
     gap: 0.5rem;
     margin: 0.75rem 0;
+    font-family: 'Josefin Sans';
 }
 
 .info-label {
@@ -85,14 +111,22 @@
     color: var(--main-color);
 }
 
-.edit-profile-btn {
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     margin-top: auto;
-    align-self: flex-end;
-    background: var(--tertiary-select-color);
+    align-items: center;
+}
+
+.profile-actions button {
+    width: 200px;
+    font-family: 'Josefin Sans';
+    background: var(--main-color);
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem;
     border-radius: var(--common-radius);
     cursor: pointer;
-    font-weight: bold;
+    font-size: 0.9rem;
 }
