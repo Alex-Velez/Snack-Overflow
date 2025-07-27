@@ -20,7 +20,7 @@ export default function CartItem({item, updateItem, total, setTotal}){
   
   return <div className="cart-item">
     <div className="cart-item-left">
-      <img src={item.img_path} alt="Img not found" className="icon"/>
+      <img src={item.img_path || "/img_not_found.svg"} alt="/img_not_found.svg" className="icon"/>
       <div className="text-info">
         <h1 style={titleStyle}>
           {item.item_name}
