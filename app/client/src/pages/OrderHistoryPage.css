@@ -14,7 +14,7 @@
 }
 
 .orderList::-webkit-scrollbar {
-    width: 15px;
+    width: 6px;
 }
 
 .orderList::-webkit-scrollbar-track {
@@ -80,4 +80,65 @@
   border-radius: 12px;
   background-color: #e0e0e0;
   color: var(--main-color);
+}
+
+.orderItem {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;                      
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3); 
+}
+
+.orderItem:last-child {
+  border-bottom: none;             
+}
+
+.itemImage {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.itemDetails {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.itemDetails .name {
+  font-weight: bold;
+}
+
+.itemDetails .desc {
+  font-size: 0.9rem;
+  color: var(--quinary-color);
+}
+
+.itemDetails .meta {
+  font-size: 0.9rem;
+  color: var(--secondary-color);
+}
+
+.itemDetails .category {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0 0.4rem;
+  background: var(--tertiary-select-color);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--main-color);
+}
+
+.orderTotal {
+  
+  border-top: 1px solid #fff;
+  padding-top: 16px;       /* match your item padding for consistency */      /* keep your existing spacing */
+  margin-left: 0.5rem;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--secondary-color);
 }

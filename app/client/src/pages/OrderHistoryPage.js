@@ -21,10 +21,22 @@ export default function OrderHistoryPage({ activeUser }) {
     const res  = await fetch(`/api/transactions/user/${activeUser}`);
     const data = await res.json();
 
+    const catRes  = await fetch('/api/items/');
+    const catalog = await catRes.json();
+
     if (Array.isArray(data)) {
       const withRootIds = data.map(order => ({
         ...order,
-        id: order.info.id
+        id: order.info.id,
+        items: order.items.map(item => {
+          const master = catalog.find(i => i.sku === item.sku) || {};
+          return {
+            ...item,                 // sku, count, itemPrice, name, totalPrice
+            description: master.item_desc  || "",
+            category:    master.category   || "",
+            imageUrl:    master.img_path   || ""
+          };
+        })
       }));
       setOrders(withRootIds);
     } else {
@@ -55,7 +67,7 @@ export default function OrderHistoryPage({ activeUser }) {
               className={`orderSummary ${selectedOrder?.id === order.id ? 'selected' : ''}`}
               onClick={() => setSelectedOrder(order)}
             >
-              <p><strong>Order #{order.id}</strong></p>
+              <p><strong>Order: #{order.id}</strong></p>
               <p>{order.items.length} item(s)</p>
             </div>
           ))}
@@ -71,12 +83,32 @@ export default function OrderHistoryPage({ activeUser }) {
                 </span>
               </div>
               <ul className="orderItems">
-                {selectedOrder.items.map((item, idx) => (
-                  <li key={idx}>
-                    • {item.name} (x{item.count}) — ${item.itemPrice.toFixed(2)}
-                  </li>
-                ))}
-              </ul>
+              {selectedOrder.items.map((item, idx) => (
+                <li key={idx} className="orderItem">
+                  {item.imageUrl && (
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="itemImage"
+                    />
+                  )}
+                  <div className="itemDetails">
+                    <div className="name">{item.name}</div>
+                    <div className="desc">{item.description}</div>
+                    <div className="meta">
+                      Qty: {item.count} × ${item.itemPrice.toFixed(2)}
+                      <span className="category">{item.category}</span>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="orderTotal">
+                Total: $
+              {selectedOrder.items
+                .reduce((sum, i) => sum + i.count * i.itemPrice, 0)
+                .toFixed(2)}
+            </div>
             </div>
           ) : (
             <p>Select an order to view details</p>
