@@ -8,26 +8,32 @@ import db, { DB_UPLOADS_PATH } from './db.js';
 import itemRouter from './routes/item.routes.js';
 import userRouter from './routes/user.routes.js';
 import transactionsRouter from './routes/transactions.js';
+import cartRouter from './routes/cart.routes.js';
+import discountRouter from './routes/discount.routes.js'
+import categoriesRouter from "./routes/category.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5001;
 
 const app = express();
 
 
 app.use(express.json());
 
-app.use('/uploads', express.static(DB_UPLOADS_PATH)); 
+app.use('/uploads', express.static(DB_UPLOADS_PATH));
 
-app.use('/api/items', itemRouter);  
-app.use('/api/users', userRouter);  
-app.use('/api/transactions', transactionsRouter);   
+app.use('/api/items', itemRouter);
+app.use('/api/users', userRouter);
+app.use('/api/transactions', transactionsRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/discount', discountRouter)
+app.use("/api/categories", categoriesRouter);
 
 app.get('/', (req, res) => {
-  res.send('🍿 Snack-Overflow API is up and running');
+  res.send('Snack-Overflow API is live 😼');
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(` Server running at http://localhost:${PORT}`);
 });

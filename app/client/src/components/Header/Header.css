@@ -1,0 +1,49 @@
+.header {
+    background: linear-gradient(0deg, var(--main-color), var(--main-hover));
+    width: 100%;
+    height: 10%;
+    border-radius: var(--common-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.header-left {
+    display: flex;
+    height: 100%;
+    width: 25%;
+    margin-left: 2.5%;
+    align-items: center;
+    justify-content: start;
+}
+
+.header-left img {
+    height: 8vh;
+}
+
+.header-left-text {
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-size: 2vw;
+    text-wrap: nowrap;
+    cursor: pointer;
+}
+
+.header-middle {
+    display: flex;
+    height: 100%;
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-right {
+    display: flex;
+    height: 100%;
+    width: 25%;
+    align-items: center;
+    justify-content: end;
+    margin-right: 2.5%;
+    gap: 5%;
+}

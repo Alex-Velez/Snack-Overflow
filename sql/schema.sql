@@ -7,7 +7,8 @@ CREATE TABLE users(
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   email_addr VARCHAR(45) UNIQUE NOT NULL,
-  password_hash VARCHAR(45) NOT NULL
+  password_hash VARCHAR(45) NOT NULL,
+  shipping_addr TEXT
 );
 
 CREATE TABLE items(
@@ -53,6 +54,8 @@ CREATE TABLE transactions(
   creation_date DATETIME NOT NULL,
   delivered_date DATETIME,
   expected_date DATETIME,
+  order_status VARCHAR(9) NOT NULL,
+  total DECIMAL(10, 2) NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
@@ -69,4 +72,10 @@ CREATE TABLE transaction_items(
   FOREIGN KEY (item_id) REFERENCES items(sku)
     ON DELETE CASCADE 
     ON UPDATE CASCADE
+);
+
+CREATE TABLE discounts(
+  code VARCHAR(10) PRIMARY KEY,
+  sku CHAR(5) NOT NULL,
+  discount INT NOT NULL
 );

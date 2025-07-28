@@ -112,4 +112,5 @@ function GroceryCard({ item }) {
       <button className="gp-btn">Add to Cart</button>
     </div>
   );
+
 }

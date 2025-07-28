@@ -1,0 +1,2 @@
+- No stock functionality implemented. By extension, no **availability** function implemented.
+- Rating system not implemented.

@@ -3,77 +3,180 @@ config:
       theme: redux
 ---
 classDiagram
+    Rating --* Item
+    Discount --* Item
+    Item --o Transaction
+    Item --o Cart
+    Transaction --* User
+
+
     User "1" --* "1" UserController
     User "1" --* "*" UserModel
     UserController "1" --* "1" UserModel
-    Item "1" --* "1" ItemController
-    Item "1" --* "*" ItemModel
-    ItemController "1" --* "1" ItemModel
-    Item "*" --o "1" Transaction
-    Transaction "1" --* "1" TransactionController
-    Transaction "1" --* "*" TransactionModel
-    TransactionController "1" --* "1" TransactionModel
-    Transaction "*" --* "1" User
+
     class User {
         +int UID
         +String firstName
         +String lastName
         +String email
-        +List~Transaction~ transactionHistory
+        +String password
     }
-    class UserController {
+
+    class UserController  {
         -UserModel userModel
-        +User activeUser
+        +register(req, res)
+        +login(req, res)
+        +getById(req, res)
+        +list(req, res)
     }
+
     class UserModel {
         -Database DB
-        +addUser(String name, float price, String type)
-        +updateUser(int id, String name, float price, String type)
-        +removeUser(int id)
-        +getUserById(int id) User
-        +getUsersByName(String name) List~User~
-        +getUsers() List~User~
+        +addUser(first, last, email, password)
+        +getUser(email, password)
+        +getUserById(uid)
+        +getUsers()
     }
+
+    Transaction "1" --* "1" TransactionController
+    Transaction "1" --* "*" TransactionModel
+    TransactionController "1" --* "1" TransactionModel
+
+    class Transaction {
+        +int TID
+        +int userID
+        +String creationDate
+        +float totalCost
+        +List~Item~ items
+    }
+
+    class TransactionController {
+        -TransactionModel transactionModel
+        +start(req, res)
+        +addItem(req, res)
+        +removeItem(req, res)
+        +getById(req, res)
+        +listByUser(req, res)
+    }
+
+    class TransactionModel {
+        -Database DB
+        +addTransaction(uid, total)
+        +addTransactionItem(tid, itemId, itemCnt)
+        +getTransactionItem(transactionId, sku)
+        +removeTransactionItem(transactionId, sku)
+        +updateTransactionItem(transactionId, sku, itemCnt, transaction_id, item_cnt, item_id)
+        +getTransactionById(tid)
+        +getTransactionsByUid(uid)
+    }
+
+    Rating --* RatingModel
+    RatingModel --* ItemModel
+
+    class Rating {
+        +int UID
+        +int IID
+        +float rating
+    }
+
+    class RatingModel {
+        -Database DB
+        +addRating(sku, rating, uid)
+        +getRatings(sku)
+        +updateItemRating(sku)
+        +updateUserRating(sku, rating, uid)
+    }
+
+    Item "1" --* "1" ItemController
+    Item "1" --* "*" ItemModel
+    ItemController "1" --* "1" ItemModel
+
     class Item {
-        +int PID
         +int SKU
         +long UPC
         +String name
+        +String description
         +float price
         +String category
-        +float rating
+        +String imagePath
     }
+
     class ItemController {
         -ItemModel itemModel
-        +List~Item~ activeItems
+        +create(req, res)
+        +list(req, res)
+        +getBySku(req, res)
+        +getByUpc(req, res)
+        +getByCategory(req, res)
+        +getByName(req, res)
+        +update(req, res)
+        +remove(req, res)
     }
+
     class ItemModel {
         -Database DB
-        +addItem(String name, float price, String type)
-        +updateItem(int id, String name, float price, String type)
-        +removeItem(int id)
-        +getItemById(int id) Item
-        +getItemsByCategory(String categoryName) List~Item~
-        +getItemsByName(String name) List~Item~
-        +getItems() List~Item~
+        +addItem(name, desc, upc, sku, price, category, imgSrc)
+        +getItems()
+        +updateItem(sku, name, desc, upc, price, rating, category, imgSrc, item_name, item_desc, img_path)
+        +getItemBySku(sku)
+        +getItemByUpc(upc)
+        +getItemsByCategory(category)
+        +getItemsByName(name)
+        +deleteItem(sku)
     }
-    class Transaction {
-        +int TID
-        +List~Item~ items
-        +float totalCost
-        +String status
-        +String startDate
-        +String endDate
+
+    Discount "1" --* "1" DiscountController
+    Discount "1" --* "*" DiscountModel
+    DiscountController "1" --* "1" DiscountModel
+
+    class Discount {
+        +int SKU
+        +String code
+        +int discount
     }
-    class TransactionController {
-        -TransactionModel transactionModel
-        +Transaction queuedTransaction
+
+    class DiscountController {
+        -DiscountModel discountModel
+        +add(req, res)
+        +get(req, res)
+        +remove(req, res)
     }
-    class TransactionModel {
+
+    class DiscountModel {
         -Database DB
-        +addTransaction(Transaction transaction)
-        +updateTransaction(int id, Transaction transaction)
-        +getTransactionById(int id) Transaction
-        +getTransactionsByUID(int uid) List~Transaction~
-        +getTransactions() List~Transaction~
+        +addDiscount(code, sku, discount)
+        +getDiscount(code)
+        +removeDiscount(code)
     }
+
+    Cart "1" --* "1" CartController 
+    Cart "1" --* "*" CartModel
+    CartController "1" --* "1" CartModel
+
+    class Cart {
+        +int UID
+        +int SKU
+        +List~Item~ items
+    }
+
+    class CartController {
+        -CartModel cartModel
+        +update(req, res)
+        +remove(req, res)
+        +clear(req, res)
+        +getAll(req, res)
+        +getItem(req, res)
+        +createOrder(req, res)
+    }
+    
+    class CartModel {
+        -Database DB
+        +getCart(uid)
+        +getCartItem(uid, sku)
+        +addCartItem(uid, sku, cnt)
+        +updateCartItem(uid, sku, cnt)
+        +removeCartItem(uid, sku)
+        +deleteCart(uid)
+    }
+
+    
