@@ -23,13 +23,13 @@ export default function HomePage({ activeUser }) {
                 </div>
 
                 <div className="home-nav-tiles">
-                    {/* // todo: Send to Categories page with specific filter */}
                     <Link to="/shop/?categories=vegetable" draggable="false" className="home-tile">Vegetables</Link>
                     <Link to={`/shop/?categories=${encodeURIComponent('bread,snack')}`} draggable="false" className="home-tile">Snacks & Breads</Link>
                     <Link to="/shop/?categories=fruit" draggable="false" className="home-tile">Fruits</Link>
                     <Link to="/shop/?categories=meat" draggable="false" className="home-tile">Meats</Link>
                     <Link to="/shop/?categories=dairy" draggable="false" className="home-tile">Milk & Dairy</Link>
                     <Link to="/shop/" draggable="false" className="home-tile home-offset-tile">See All</Link>
+
                 </div>
 
                 <div class="home-boat">
