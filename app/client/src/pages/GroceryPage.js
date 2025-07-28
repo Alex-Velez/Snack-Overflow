@@ -21,6 +21,27 @@ export default function GroceryPage({ activeUser }) {
   const search = searchParams.get('search')?.toLowerCase() || '';
   const categories = searchParams.get('categories')?.split(',') || [];
 
+  async function updateCart(sku){
+    if(!activeUser){
+      navigate('/login');
+    }
+    else{
+      let body = {
+        "userId": activeUser,
+        "sku": sku,
+        "count": 1
+      }
+      
+      await fetch("/api/cart/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      })
+    }
+  }
+
   useEffect(() => {
     async function load() {
       setLoading(true);
@@ -105,7 +126,7 @@ export default function GroceryPage({ activeUser }) {
           {!loading && items.length === 0 && <p>No items found.</p>}
           <div className="gp-grid">
             {items.map(item => (
-              <GroceryCard key={item.sku} item={item} />
+              <GroceryCard key={item.sku} item={item} handleUpdate={updateCart}/>
             ))}
           </div>
         </main>
@@ -114,7 +135,7 @@ export default function GroceryPage({ activeUser }) {
   );
 }
 
-function GroceryCard({ item }) {
+function GroceryCard({ item, handleUpdate }) {
   return (
     <div className="gp-card">
       {item.img_path && (
@@ -122,7 +143,7 @@ function GroceryCard({ item }) {
       )}
       <h3 className="gp-name">{item.item_name}</h3>
       <p className="gp-price">${Number(item.price).toFixed(2)}</p>
-      <button className="gp-btn">Add to Cart</button>
+      <button className="gp-btn" onClick={() => handleUpdate(item.sku)}>Add to Cart</button>
     </div>
   );
 

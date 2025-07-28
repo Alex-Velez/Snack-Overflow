@@ -103,6 +103,10 @@
     font-family: 'Josefin Sans';
   }
 
+  .gp-btn:active{
+    background-color: #081e1a
+  }
+
 .gp-checkbox-label input[type="checkbox"] {
     accent-color: #0c2b26;
     cursor: pointer;

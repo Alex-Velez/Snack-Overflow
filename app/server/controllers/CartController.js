@@ -24,6 +24,7 @@ const TAX_RATE = .0825
 
 export class CartController {
     static async update(req, res) {
+        console.log("updating")
         const { userId, sku, count } = req.body;
         const result = await addCartItem(userId, sku, count);
 
