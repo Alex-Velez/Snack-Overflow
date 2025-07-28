@@ -42,7 +42,7 @@ export default function OrderHistoryPage({ activeUser }) {
 
   return (
     <>
-      <Header />
+      <Header user={activeUser}/>
       <div className="orderHistLayout">
         <div className="orderList">
           <h2>Your Orders</h2>
