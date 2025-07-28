@@ -1,75 +1,129 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import Page from '../components/Page/Page';
 import './GroceryPage.css';
 
+const CATEGORY_LABELS = {
+  'Vegetables': 'vegetable',
+  'Snacks': 'snack',
+  'Breads': 'bread',
+  'Fruits': 'fruit',
+  'Meats': 'meat',
+  'Dairy': 'dairy'
+};
+
 export default function GroceryPage({ activeUser }) {
-    const [searchParams] = useSearchParams();
-    const [items, setItems] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const search = searchParams.get('search')?.toLowerCase() || '';
+  const categories = searchParams.get('categories')?.split(',') || [];
 
   useEffect(() => {
-  async function load() {
-    setLoading(true);
+    async function load() {
+      setLoading(true);
+      try {
+        const search = searchParams.get('search')?.toLowerCase() || '';
+        const categories = searchParams.get('categories')?.split(',') || [];
+        var data;
+        if(search){
+          let res = await fetch(`/api/items/search/${search}`);
+          data = await res.json()
+        }
+        else if(categories.length > 0 && categories[0] !== ''){
+          data = []
+          for(const cat of categories){
+            let thisQuery = await fetch(`/api/items/category/${cat}`);
+            data = data.concat(await thisQuery.json())
+          }
+        }
+        else{
+          let res = await fetch('/api/items/');
+          data = await res.json();
+        }
+        
+        if (categories.length > 0 && categories[0] !== '') {
+          data = data.filter(item =>
+            categories.includes(item.category.toLowerCase())
+          );
+        }
 
-    // grab the raw query param (e.g. ?search=apple)
-    const rawSearch = searchParams.get('search') || '';
-    const searchTerm = rawSearch.toLowerCase().trim();
-
-    // build the correct endpoint
-    const endpoint = searchTerm
-      ? `/api/items/search/${encodeURIComponent(searchTerm)}`
-      : '/api/items';
-
-    try {
-      const res = await fetch(endpoint);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      let data = await res.json();
-
-      // now apply any client-side category filtering if you want
-      const rawCats = searchParams.get('categories') || '';
-      const categories = rawCats.split(',').map(c => c.trim().toLowerCase()).filter(Boolean);
-      if (categories.length) {
-        data = data.filter(item =>
-          categories.includes(item.category.toLowerCase())
-        );
+        console.log(data)
+        
+        setItems(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error('Error fetching items:', err);
+        setItems([]);
       }
-
-      setItems(Array.isArray(data) ? data : []);
-    } catch (err) {
-      console.error('Fetch failed:', err);
-      setItems([]);
-    } finally {
       setLoading(false);
     }
-  }
 
-        load();
-    }, [searchParams]);
+    load();
+  }, [searchParams]);
 
-    return (
-        <Page activeUser={activeUser}>
-            <h1 className="gp-title">Groceries</h1>
-            {loading && <p>Loading...</p>}
-            {!loading && items.length === 0 && <p>No items found.</p>}
-            <div className="gp-grid">
-                {items.map(item => (
-                    <GroceryCard key={item.sku} item={item} />
-                ))}
-            </div>
-        </Page>
-    );
+
+  const handleCategoryChange = (catLabel) => {
+    let updatedCategories = [...categories];
+    const categoryKey = catLabel.toLowerCase();
+
+    if (updatedCategories.includes(categoryKey)) {
+      updatedCategories = updatedCategories.filter(c => c !== categoryKey);
+    } else {
+      updatedCategories.push(categoryKey);
+    }
+
+    const newParams = {};
+    if (search) newParams.search = search;
+    if (updatedCategories.length) newParams.categories = updatedCategories.join(',');
+
+    setSearchParams(newParams);
+  };
+
+  return (
+    <Page activeUser={activeUser}>
+      <div className="gp-container">
+        <aside className="gp-sidebar">
+          <h3 className="gp-filters-title">Filters</h3>
+          {Object.entries(CATEGORY_LABELS).map(([key, value]) => {
+            return (
+              <label key={key} className="gp-checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={categories.includes(value)}
+                  onChange={() => handleCategoryChange(value)}
+                />
+                {key}
+              </label>
+              
+            );
+          })}
+        </aside>
+        <main className="gp-main">
+          {loading && <p>Loading...</p>}
+          {!loading && items.length === 0 && <p>No items found.</p>}
+          <div className="gp-grid">
+            {items.map(item => (
+              <GroceryCard key={item.sku} item={item} />
+            ))}
+          </div>
+        </main>
+      </div>
+    </Page>
+  );
 }
 
 function GroceryCard({ item }) {
-    return (
-        <div className="gp-card">
-            {item.img_path && (
-                <img src={item.img_path} alt={item.item_name} className="gp-img" />
-            )}
-            <h3 className="gp-name">{item.item_name}</h3>
-            <p className="gp-price">${Number(item.price).toFixed(2)}</p>
-            <button className="gp-btn" disabled>Add to Cart</button>
-        </div>
-    );
+  return (
+    <div className="gp-card">
+      {item.img_path && (
+        <img src={item.img_path} alt={item.item_name} className="gp-img" />
+      )}
+      <h3 className="gp-name">{item.item_name}</h3>
+      <p className="gp-price">${Number(item.price).toFixed(2)}</p>
+      <button className="gp-btn">Add to Cart</button>
+    </div>
+  );
+
 }
