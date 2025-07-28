@@ -3,13 +3,14 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import Page from '../components/Page/Page';
 import './GroceryPage.css';
 
-const CATEGORY_LABELS = [
-  'Vegetables',
-  'Snacks & Breads',
-  'Fruits',
-  'Meats',
-  'Milk & Dairy'
-];
+const CATEGORY_LABELS = {
+  'Vegetables': 'vegetable',
+  'Snacks': 'snack',
+  'Breads': 'bread',
+  'Fruits': 'fruit',
+  'Meats': 'meat',
+  'Dairy': 'dairy'
+};
 
 export default function GroceryPage({ activeUser }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,21 +25,33 @@ export default function GroceryPage({ activeUser }) {
     async function load() {
       setLoading(true);
       try {
-        const res = await fetch(`/api/items/search/${search}`);
-        let data = await res.json();
-
-        if (categories.length && categories[0] !== '') {
+        const search = searchParams.get('search')?.toLowerCase() || '';
+        const categories = searchParams.get('categories')?.split(',') || [];
+        var data;
+        if(search){
+          let res = await fetch(`/api/items/search/${search}`);
+          data = await res.json()
+        }
+        else if(categories.length > 0 && categories[0] !== ''){
+          data = []
+          for(const cat of categories){
+            let thisQuery = await fetch(`/api/items/category/${cat}`);
+            data = data.concat(await thisQuery.json())
+          }
+        }
+        else{
+          let res = await fetch('/api/items/');
+          data = await res.json();
+        }
+        
+        if (categories.length > 0 && categories[0] !== '') {
           data = data.filter(item =>
             categories.includes(item.category.toLowerCase())
           );
         }
 
-        if (search) {
-          data = data.filter(item =>
-            item.item_name.toLowerCase().includes(search)
-          );
-        }
-
+        console.log(data)
+        
         setItems(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error('Error fetching items:', err);
@@ -48,7 +61,8 @@ export default function GroceryPage({ activeUser }) {
     }
 
     load();
-  }, [search, categories]);
+  }, [searchParams]);
+
 
   const handleCategoryChange = (catLabel) => {
     let updatedCategories = [...categories];
@@ -72,22 +86,21 @@ export default function GroceryPage({ activeUser }) {
       <div className="gp-container">
         <aside className="gp-sidebar">
           <h3 className="gp-filters-title">Filters</h3>
-          {CATEGORY_LABELS.map(label => {
-            const key = label.toLowerCase();
+          {Object.entries(CATEGORY_LABELS).map(([key, value]) => {
             return (
               <label key={key} className="gp-checkbox-label">
                 <input
                   type="checkbox"
-                  checked={categories.includes(key)}
-                  onChange={() => handleCategoryChange(label)}
+                  checked={categories.includes(value)}
+                  onChange={() => handleCategoryChange(value)}
                 />
-                {label}
+                {key}
               </label>
+              
             );
           })}
         </aside>
         <main className="gp-main">
-          <h1 className="gp-title">Groceries</h1>
           {loading && <p>Loading...</p>}
           {!loading && items.length === 0 && <p>No items found.</p>}
           <div className="gp-grid">

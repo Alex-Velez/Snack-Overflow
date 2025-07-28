@@ -61,7 +61,9 @@ export class ItemController {
 
     static async getByName(req, res) {
         const { name } = req.params;
+        console.log(name)
         const items = await getItemsByName(name);
+        console.log(items)
 
         if (items.error) {
             return res.status(400).json({ error: items.error });

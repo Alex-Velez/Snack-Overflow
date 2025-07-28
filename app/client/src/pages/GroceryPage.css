@@ -1,14 +1,18 @@
 
 .gp-container {
     display:flex;
-    min-height: 80vh;
+    width: 100%;
+    height: 100%
 }
 
 .gp-sidebar {
     width: 250px;
+    height: 100%;
     padding: 1.5rem;
-    background-color: #f4f4f4;
+    background-color: var(--main-color);
     border-right: 1px solid #ddd;
+    border-radius: var(--common-radius);
+    box-sizing: border-box;
   }
   
   .gp-filters-title {
@@ -26,8 +30,23 @@
   .gp-main {
     flex: 1;
     padding: 1.5rem;
+    padding-top: 0px;
     overflow-y: auto;
   }
+
+  .gp-main::-webkit-scrollbar {
+    width: 15px;
+}
+
+.gp-main::-webkit-scrollbar-track {
+    background: none;
+}
+
+.gp-main::-webkit-scrollbar-thumb {
+    background: var(--main-color);
+    border-radius: 50px;
+    border: 3px solid #226d5f;
+}  
   
   .gp-title {
     font-size: 2rem;
@@ -44,7 +63,7 @@
   
   .gp-card {
 
-    background: #fff;
+    background: var(--main-color);
     border: 1px solid #ddd;
     border-radius: 12px;
     padding: 1rem;
@@ -54,8 +73,8 @@
   
   .gp-img {
 
-    width: 100%;
     height: 180px;
+    aspect-ratio: 1/1;
     object-fit: cover;
     border-radius: 8px;
     margin-bottom: 0.75rem;
@@ -69,17 +88,23 @@
   
   .gp-price {
     font-weight: bold;
-    color: #2e7d32;
+    color: var(--secondary-color);
     margin-bottom: 0.5rem;
   }
   
   .gp-btn {
-    background-color: #2e7d32;
+    background-color: #0c2b26;
 
     color: white;
     padding: 0.5rem 1rem;
     border: none;
-    border-radius: 6px;
+    border-radius: 30px;
     cursor: pointer;
+    font-family: 'Josefin Sans';
   }
+
+.gp-checkbox-label input[type="checkbox"] {
+    accent-color: #0c2b26;
+    cursor: pointer;
+}
 
