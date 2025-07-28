@@ -214,3 +214,19 @@ body {
 .home-wave .home-wave-shape-fill {
     fill: var(--main-color);
 }
+
+.ship-to-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--main-color);
+  padding: 0 0.5rem;
+  vertical-align: middle;    /* align the whole inline-flex box to the text baseline */
+}
+
+.ship-to-link .icon {
+  width: 1.3rem;
+  height: 1.3rem;
+  object-fit: contain;
+  vertical-align: middle;    /* ensure the img itself sits in the middle */
+}

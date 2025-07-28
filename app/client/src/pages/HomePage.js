@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Page from "../components/Page/Page";
 import "./HomePage.css";
 
-export default function HomePage({ activeUser }) {
+
+export default function HomePage({ activeUser}) {
+    const [shippingAddr, setShippingAddr] = useState("");
+    useEffect(() => {
+     if (!activeUser) return;
+     fetch(`/api/users/${activeUser}`)
+       .then((r) => r.json())
+       .then((u) => setShippingAddr(u.shipping_addr || ""));
+  }, [activeUser]);
+  const city = shippingAddr.split(",")[1]?.trim();
+  const shipLabel = city ? `Ship to ${city}` : "Add shipping address";
     return (
         <Page activeUser={activeUser}>
 
@@ -16,7 +26,16 @@ export default function HomePage({ activeUser }) {
 
                     <nav className="home-top-nav">
                         <ul>
-                            <li><Link to="/category">Browse Categories</Link></li>
+                            <li>
+                              <Link to="/profile" className="ship-to-link">
+                               <img
+                                 src="/location.png"
+                                 alt="Location"
+                                  className="icon"
+                                />
+                                {shipLabel}
+                              </Link>
+                            </li>
                             <li><Link to="/orders">Order History</Link></li>
                         </ul>
                     </nav>
