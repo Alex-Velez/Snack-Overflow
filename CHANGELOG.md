@@ -61,3 +61,7 @@
 **V07.27**
   - Added taxing to checkout.
   - Profile page added.
+  - Fully implemented shop page with search and categories.
+  - Implemented category cards on homepage.
+  - Major bug fixes.
+  - Added order page.

@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/register', UserController.register);
 router.post('/login', UserController.login);
 
-router.patch('/:uid', UserController.update);
+router.patch('/update', UserController.update);
 router.get('/:uid', UserController.getById);
 router.get('/', UserController.list);
 

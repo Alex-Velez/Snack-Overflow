@@ -87,7 +87,7 @@ export async function getUsers(PROTECTED = true) {
     }
 }
 
-export async function updateUser({ uid, first, last, email, password, shipping_addr }) {
+export async function updateUser({ uid, first, last, email, password, address }) {
     if (email && !validateEmail(email)) {
         return { error: 'INVALID_EMAIL' };
     }
@@ -110,7 +110,7 @@ export async function updateUser({ uid, first, last, email, password, shipping_a
     const newLast = last ?? prev.last_name;
     const newEmail = email ?? prev.email_addr;
     const newPassword = password ?? prev.password_hash;
-    const newShipping = shipping_addr ?? prev.shipping_addr;
+    const newShipping = address ?? prev.shipping_addr;
 
     const query = `UPDATE users
     SET first_name = ?,

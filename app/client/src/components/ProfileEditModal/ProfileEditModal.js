@@ -21,10 +21,12 @@ export default function ProfileEditModal({ user, onClose, onSave }) {
         setError('');
 
         try {
-            const res = await fetch(`/api/users/${user.id}`, {
+            let body = {...form, uid: user.id, address: form.shipping_addr}
+            console.log(body)
+            const res = await fetch(`/api/users/update`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(form)
+                body: JSON.stringify(body)
             });
             if (!res.ok) {
                 const { error } = await res.json();
